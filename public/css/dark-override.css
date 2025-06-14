@@ -1,0 +1,48 @@
+
+/* Dark Mode Override - Choso Style */
+
+body {
+  background-color: #111827 !important;
+  color: #E0F2F1 !important;
+}
+
+.card, .section, .box, .content, .container, .main, .sp-container {
+  background-color: #1f2937 !important;
+  color: #E0F2F1 !important;
+}
+
+input, select, textarea {
+  background-color: #374151 !important;
+  color: #E0F2F1 !important;
+  border-color: #4FC3F7 !important;
+}
+
+a {
+  color: #4FC3F7 !important;
+}
+
+.btn-primary {
+  background-color: #00796B !important;
+  border-color: #00796B !important;
+  color: white !important;
+}
+
+.btn-warning {
+  background-color: #FFD54F !important;
+  border-color: #FFD54F !important;
+  color: #111827 !important;
+}
+
+.btn-danger {
+  background-color: #EF5350 !important;
+  border-color: #EF5350 !important;
+  color: white !important;
+}
+
+.bg-white, .bg-[#eff5fc], .bg-[#f9f9f9] {
+  background-color: #1f2937 !important;
+}
+
+.text-black, .text-gray-800 {
+  color: #E0F2F1 !important;
+}
