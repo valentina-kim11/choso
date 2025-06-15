@@ -46,6 +46,14 @@
                     <p>Ví</p>
                 </a>
             </li>
+            <li class="@if (Route::is('vendor.bank_accounts.*')) active @endif">
+                <a href="{{ route('vendor.bank_accounts.index') }}">
+                    <span class="">
+                        <!-- icon -->
+                    </span>
+                    <p>Tài khoản ngân hàng</p>
+                </a>
+            </li>
             <li class="@if (Route::is('vendor.profile')) active @endif">
                 <a href="{{ route('vendor.profile') }}">
                     <span class="">
