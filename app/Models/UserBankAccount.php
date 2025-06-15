@@ -16,4 +16,9 @@ class UserBankAccount extends Model
         'method',
         'is_default',
     ];
+
+    public function scopeDefault($query)
+    {
+        return $query->where('is_default', true);
+    }
 }

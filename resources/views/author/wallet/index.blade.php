@@ -152,7 +152,7 @@
                                 @else
                                     <select name="bank_account_id" class="form-control">
                                         @foreach($accounts as $acc)
-                                            <option value="{{ $acc->id }}">{{ $acc->bank_name }} - {{ $acc->account_number }}</option>
+                                            <option value="{{ $acc->id }}" @selected($acc->is_default)>{{ $acc->bank_name }} - {{ $acc->account_number }}</option>
                                         @endforeach
                                     </select>
                                 @endif

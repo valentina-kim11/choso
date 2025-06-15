@@ -43,6 +43,7 @@
                             <th>Bank</th>
                             <th>Account</th>
                             <th>Holder</th>
+                            <th>Default</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -53,6 +54,11 @@
                             <td>{{ $account->bank_name }}</td>
                             <td>{{ $account->account_number }}</td>
                             <td>{{ $account->account_holder }}</td>
+                            <td>
+                                @if($account->is_default)
+                                    <span class="badge bg-primary">Default</span>
+                                @endif
+                            </td>
                             <td>
                                 <form method="POST" action="{{ route('vendor.bank_accounts.destroy',$account->id) }}">
                                     @csrf

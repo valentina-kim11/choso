@@ -25,6 +25,9 @@ class BankAccountController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
+        if ($request->is_default) {
+            UserBankAccount::where('user_id', auth()->id())->update(['is_default' => false]);
+        }
         UserBankAccount::create([
             'user_id' => auth()->id(),
             'bank_name' => $request->bank_name,
