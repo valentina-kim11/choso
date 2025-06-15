@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="{{ session('theme', 'light') === 'dark' ? 'dark' : '' }}">
+<html lang="en">
 <head>
 	<!--=== meta tags ===-->
 	<meta charset="utf-8">
@@ -22,7 +22,22 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-        <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
+        <style>
+        :root {
+            --theme-color: #216fff;
+            --secondary-color: #566c8e;
+            --text-color: #53627a;
+            --background: #eff5fc;
+            --bgcolour: #f5f8fa;
+            --menu-heading-color: #002533;
+            --white-color: #ffffff;
+            --yellow-color: #fba948;
+            --blue-color: #1778f2;
+            --tp-body-bg-color: #f5f7fa;
+            --tp-text-color: rgba(0, 0, 0, 0.87);
+            --tp-border-color: rgba(0, 0, 0, 0.1);
+        }
+        </style>
 
     <!--=== custom css ===-->
     <link rel="stylesheet" href="{{ $ASSET_URL }}assets/css/bootstrap.min.css" />

@@ -329,23 +329,3 @@ document.addEventListener("DOMContentLoaded", function() {
 
     typeAnimation();
 });
-
-// Dark mode toggle
-document.addEventListener("DOMContentLoaded", function() {
-    var root = document.documentElement;
-    var toggleBtn = document.getElementById("dark-mode-toggle");
-    var stored = localStorage.getItem("theme");
-    if (stored === "dark") {
-        root.classList.add("dark");
-    }
-    if (toggleBtn) {
-        toggleBtn.addEventListener("click", function () {
-            root.classList.toggle("dark");
-            var mode = root.classList.contains("dark") ? "dark" : "light";
-            localStorage.setItem("theme", mode);
-        });
-    }
-});
-
-
-

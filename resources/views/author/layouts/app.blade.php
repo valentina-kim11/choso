@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="{{ session('theme', 'light') === 'dark' ? 'dark' : '' }}">
+<html lang="vi">
 <head>
     @php
         $ASSET_URL = asset('admin-theme/assets') . '/';
@@ -20,7 +20,22 @@
     <!-------- Favicon Link -------->
     <link rel="shortcut icon" href="{{   Storage::url(@$setting->favicon_img)  }}" />
     <link href="{{   Storage::url(@$setting->favicon_img) }}" rel="apple-touch-icon">
-    <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
+    <style>
+        :root {
+            --theme-color: #216fff;
+            --secondary-color: #566c8e;
+            --text-color: #53627a;
+            --background: #eff5fc;
+            --bgcolour: #f5f8fa;
+            --menu-heading-color: #002533;
+            --white-color: #ffffff;
+            --yellow-color: #fba948;
+            --blue-color: #1778f2;
+            --tp-body-bg-color: #f5f7fa;
+            --tp-text-color: rgba(0, 0, 0, 0.87);
+            --tp-border-color: rgba(0, 0, 0, 0.1);
+        }
+    </style>
     <!-------- Style-sheet Start -------->
     <link rel="stylesheet" type="text/css" href="{{ $ASSET_URL }}css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="{{ $ASSET_URL }}css/font-awesome.min.css" />
