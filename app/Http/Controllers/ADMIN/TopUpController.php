@@ -5,7 +5,7 @@ namespace App\Http\Controllers\ADMIN;
 use App\Http\Controllers\Controller;
 use App\Models\WalletTransaction;
 use App\Services\WalletService;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\{RedirectResponse, Request};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -23,6 +23,7 @@ class TopUpController extends Controller
      */
     public function index(Request $request)
     {
+
         $query = WalletTransaction::with('wallet.getUser')
             ->where('source', 'topup');
 
@@ -52,6 +53,41 @@ class TopUpController extends Controller
             ->paginate(10)
             ->appends($request->query());
 
+        $transactions = WalletTransaction::with('wallet.getUser')
+            ->where('source', 'topup');
+
+        if ($request->has('status') && $request->status !== '') {
+            $transactions->where('status', (int) $request->status);
+        } else {
+            $transactions->whereIn('status', [0, 1]);
+        }
+
+        if ($request->filled('user_id') || $request->filled('user_email')) {
+            $transactions->whereHas('wallet.getUser', function ($q) use ($request) {
+                if ($request->filled('user_id')) {
+                    $q->where('id', $request->user_id);
+                }
+
+                if ($request->filled('user_email')) {
+                    $q->where('email', 'like', '%' . $request->user_email . '%');
+                }
+            });
+        }
+
+        if ($request->filled('from_date')) {
+            $transactions->whereDate('created_at', '>=', $request->from_date);
+        }
+
+        if ($request->filled('to_date')) {
+            $transactions->whereDate('created_at', '<=', $request->to_date);
+        }
+
+        $transactions = $transactions
+            ->orderByDesc('created_at')
+            ->paginate(10)
+            ->appends($request->all());
+
+
         return view('admin.topups.index', compact('transactions'));
     }
 
@@ -78,6 +114,6 @@ class TopUpController extends Controller
         });
 
         return redirect()->route('admin.topups.index')
-            ->with('success', 'Top-up approved successfully');
+            ->with('success', 'Top-up approved and Scoin added to user wallet');
     }
 }
