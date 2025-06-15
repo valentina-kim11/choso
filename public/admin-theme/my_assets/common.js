@@ -375,3 +375,18 @@ function uploadImage(file_id) {
         });
     }
 }
+
+// Dark mode toggle for admin panel
+document.addEventListener('DOMContentLoaded', function () {
+    var toggle = document.getElementById('admin-dark-mode-toggle');
+    if (!toggle) return;
+    var htmlEl = document.documentElement;
+    var stored = localStorage.getItem('admin-theme');
+    if (stored === 'dark') {
+        htmlEl.classList.add('dark');
+    }
+    toggle.addEventListener('click', function () {
+        htmlEl.classList.toggle('dark');
+        localStorage.setItem('admin-theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
+    });
+});
