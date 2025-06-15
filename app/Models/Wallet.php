@@ -12,7 +12,6 @@ class Wallet extends Model
     use HasUuids,HasFactory;
     protected $table = 'wallets';
     public $fillable = [
-        'id',
         'user_id',
         'balance',
         'type',
