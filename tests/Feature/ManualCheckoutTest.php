@@ -13,6 +13,10 @@ class ManualCheckoutTest extends TestCase
 
     public function test_manual_checkout_process_creates_order(): void
     {
+        config([
+            'services.STRIPE_SECRET_KEY' => 'sk_test',
+            'services.STRIPE_PUBLIC_KEY' => 'pk_test',
+        ]);
         $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
         // seller
         $vendor = User::create([

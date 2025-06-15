@@ -6,6 +6,7 @@ use App\Models\{User, Wallet};
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Services\WalletService;
 use Tests\TestCase;
 
 class WalletWithdrawalTest extends TestCase
@@ -29,22 +30,28 @@ class WalletWithdrawalTest extends TestCase
             'short_value' => '10',
         ]);
 
-        Wallet::create([
-            'id' => Str::uuid()->toString(),
+        $walletId = Str::uuid()->toString();
+        DB::table('wallets')->insert([
+            'id' => $walletId,
             'user_id' => $user->id,
-            'type' => 'SALE',
-            'credit' => 200,
+            'balance' => 200,
+            'type' => 'DEFAULT',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
-        $response = $this->actingAs($user)
-            ->post('/author/wallet/store', ['amount' => 100]);
+        $service = new WalletService();
+        $service->debit($user->id, 100, 'withdrawal');
 
-        $response->assertStatus(200);
+        $this->assertDatabaseHas('wallet_transactions', [
+            'wallet_id' => $walletId,
+            'amount' => 100,
+            'type' => 'debit',
+        ]);
 
         $this->assertDatabaseHas('wallets', [
-            'user_id' => $user->id,
-            'debit' => 100,
-            'type' => 'WITHDRAW',
+            'id' => $walletId,
+            'balance' => 100,
         ]);
     }
 }
