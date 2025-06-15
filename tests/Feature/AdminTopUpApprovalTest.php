@@ -67,6 +67,11 @@ class AdminTopUpApprovalTest extends TestCase
             'status' => 1,
         ]);
 
+        $this->assertDatabaseHas('admin_action_logs', [
+            'action' => 'topup_approve',
+            'target_id' => $txId,
+        ]);
+
         $this->assertDatabaseHas('wallets', [
             'id' => $walletId,
             'balance' => 20000,
