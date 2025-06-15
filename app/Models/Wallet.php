@@ -10,7 +10,7 @@ use App\Models\WalletTransaction;
 class Wallet extends Model
 {
     use HasUuids,HasFactory;
-    protected $table = 'wallet_transactions';
+    protected $table = 'wallets';
     public $fillable = [
         'user_id',
         'balance',

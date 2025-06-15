@@ -14,16 +14,19 @@ class WalletService
     public function credit(int $userId, float $amount, string $source, ?string $desc = null)
     {
         return DB::transaction(function () use ($userId, $amount, $source, $desc) {
-            Wallet::create([
-                'id' => Str::uuid()->toString(),
-                'user_id' => $userId,
-                'type' => 'credit',
-                'credit' => $amount,
-                'note' => $desc,
-            ]);
+            $wallet = Wallet::firstOrCreate(
+                ['user_id' => $userId],
+                [
+                    'id' => Str::uuid()->toString(),
+                    'balance' => 0,
+                    'type' => 'DEFAULT',
+                ]
+            );
+
+            $wallet->increment('balance', $amount);
 
             DB::table('wallet_transactions')->insert([
-                'user_id' => $userId,
+                'wallet_id' => $wallet->id,
                 'amount' => $amount,
                 'type' => 'credit',
                 'source' => $source,
@@ -32,7 +35,7 @@ class WalletService
                 'updated_at' => now(),
             ]);
 
-            return $this->getBalance($userId);
+            return $wallet->fresh()->balance;
         });
     }
 
@@ -44,21 +47,17 @@ class WalletService
     public function debit(int $userId, float $amount, string $source, ?string $desc = null)
     {
         return DB::transaction(function () use ($userId, $amount, $source, $desc) {
-            $balance = $this->getBalance($userId);
+            $wallet = Wallet::where('user_id', $userId)->first();
+
+            $balance = $wallet?->balance ?? 0;
             if ($balance < $amount) {
                 throw new \Exception('Insufficient balance');
             }
 
-            Wallet::create([
-                'id' => Str::uuid()->toString(),
-                'user_id' => $userId,
-                'type' => 'debit',
-                'debit' => $amount,
-                'note' => $desc,
-            ]);
+            $wallet->decrement('balance', $amount);
 
             DB::table('wallet_transactions')->insert([
-                'user_id' => $userId,
+                'wallet_id' => $wallet->id,
                 'amount' => $amount,
                 'type' => 'debit',
                 'source' => $source,
@@ -67,7 +66,7 @@ class WalletService
                 'updated_at' => now(),
             ]);
 
-            return $this->getBalance($userId);
+            return $wallet->fresh()->balance;
         });
     }
 
@@ -76,8 +75,6 @@ class WalletService
      */
     public function getBalance(int $userId): float
     {
-        return Wallet::where('user_id', $userId)
-            ->select(DB::raw('SUM(credit - debit) as total'))
-            ->value('total') ?? 0;
+        return Wallet::where('user_id', $userId)->value('balance') ?? 0;
     }
 }
