@@ -14,5 +14,10 @@ class AdminActionLog extends Model
         'target_type',
         'target_id',
         'description',
+        'metadata',
+    ];
+
+    protected $casts = [
+        'metadata' => 'array',
     ];
 }
