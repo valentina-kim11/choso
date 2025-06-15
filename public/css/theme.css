@@ -9,6 +9,16 @@
   --bg-card: #ffffff;
   --input-bg: #ffffff;
   --input-border: #ced4da;
+  /* legacy variable aliases */
+  --theme-color: var(--color-primary);
+  --secondary-color: var(--color-secondary);
+  --text-color: var(--text-main);
+  --menu-heading-color: var(--text-main);
+  --tp-text-color: var(--text-main);
+  --tp-body-bg-color: var(--bg-main);
+  --background: var(--bg-main);
+  --bgcolour: var(--bg-main);
+  --white-color: #ffffff;
 }
 
 body {
@@ -60,4 +70,13 @@ a {
   --bg-card: #1f2937;
   --input-bg: #374151;
   --input-border: #4FC3F7;
+  /* legacy variable aliases */
+  --theme-color: var(--color-primary);
+  --secondary-color: var(--color-secondary);
+  --text-color: var(--text-main);
+  --menu-heading-color: var(--text-main);
+  --tp-text-color: var(--text-main);
+  --tp-body-bg-color: var(--bg-main);
+  --background: var(--bg-main);
+  --bgcolour: var(--bg-main);
 }
