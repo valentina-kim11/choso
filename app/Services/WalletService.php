@@ -26,6 +26,7 @@ class WalletService
             $wallet->increment('balance', $amount);
 
             DB::table('wallet_transactions')->insert([
+                'id' => Str::uuid()->toString(),
                 'wallet_id' => $wallet->id,
                 'amount' => $amount,
                 'type' => 'credit',
@@ -57,6 +58,7 @@ class WalletService
             $wallet->decrement('balance', $amount);
 
             DB::table('wallet_transactions')->insert([
+                'id' => Str::uuid()->toString(),
                 'wallet_id' => $wallet->id,
                 'amount' => $amount,
                 'type' => 'debit',
