@@ -23,21 +23,21 @@
                                 </div>
                                 <div class="th_product_detail">
                                     <div class="theme_label">ID người dùng :</div>
-                                    <div class="product_info product_name">{{ @$data->user_id }}</div>
+                                    <div class="product_info product_name">{{ @$data->wallet->user_id }}</div>
                                 </div>
 
                                 <div class="th_product_detail">
                                     <div class="theme_label">Họ và tên :</div>
-                                    <div class="product_info product_name">{{ @$data->getUser->full_name }}</div>
+                                    <div class="product_info product_name">{{ @$data->wallet->getUser->full_name }}</div>
                                 </div>
                                 <div class="th_product_detail">
                                     <div class="theme_label">Email :</div>
-                                    <div class="product_info product_name">{{ @$data->getUser->email }}</div>
+                                    <div class="product_info product_name">{{ @$data->wallet->getUser->email }}</div>
                                 </div>
 
                                 <div class="th_product_detail">
                                     <div class="theme_label">Số tiền rút :</div>
-                                    <div class="product_info product_name">{{ number_format(@$data->debit, 0, ',', '.') }} Scoin</div>
+                                    <div class="product_info product_name">{{ number_format(@$data->amount, 0, ',', '.') }} Scoin</div>
                                 </div>
 
                                 <div class="th_product_detail">
@@ -103,7 +103,7 @@
                                         <div class="col tp_form_wrapper">
                                             <label class="mb-2">Ghi chú</label>
                                             <textarea class="form-textarea" rows="5" cols="50" spellcheck="false" name="note"
-                                                placeholder="Nhập ghi chú">{{ @$data->note }}</textarea>
+                                                placeholder="Nhập ghi chú">{{ @$data->description }}</textarea>
                                         </div>
                                     </div>
                                 </div>
