@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\ADMIN\{AdminViewController, AdminController,PageController,ProductCategoryController,ProductSubCategoryController,UsersController,VendorController,EmailIntegrationsController,ProductController,SettingController,TestimonialController,DiscountCouponController,OrderController,HomeContentController,MailController,LocaleFileController,WalletController as AdminWalletController,TopUpController as AdminTopUpController};
+use App\Http\Controllers\ADMIN\{AdminViewController, AdminController,PageController,ProductCategoryController,ProductSubCategoryController,UsersController,VendorController,EmailIntegrationsController,ProductController,SettingController,TestimonialController,DiscountCouponController,OrderController,HomeContentController,MailController,LocaleFileController,WalletController as AdminWalletController,TopUpController as AdminTopUpController, AdminAuditLogController};
 
 use App\Http\Controllers\Frontend\{CouponsController,HomeController,ProductController as FrontendProductController, HomeViewController,UserController,CartController,CommentController,SocialLoginController,WalletController,TopUpController};
 use App\Http\Controllers\Payment\{CheckoutController,PaymentsController,PayPalPaymentController,FlutterwaveController,StripePaymentController,RazorpayController,PawaPayController};
@@ -219,6 +219,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::controller(AdminTopUpController::class)->prefix('topups')->group(function(){
             Route::get('/', 'index')->name('admin.topups.index');
             Route::post('{id}/approve', 'approve')->name('admin.topups.approve');
+        });
+
+        /* Audit log routes */
+        Route::controller(AdminAuditLogController::class)->prefix('audit-logs')->group(function(){
+            Route::get('/', 'index')->name('admin.audit_logs.index');
         });
     });
 });
