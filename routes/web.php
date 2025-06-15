@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ADMIN\{AdminViewController, AdminController,PageController,ProductCategoryController,ProductSubCategoryController,UsersController,VendorController,EmailIntegrationsController,ProductController,SettingController,TestimonialController,DiscountCouponController,OrderController,HomeContentController,MailController,LocaleFileController,WalletController};
-use App\Http\Controllers\Frontend\{CouponsController,HomeController,ProductController as FrontendProductController, HomeViewController,UserController,CartController,CommentController,SocialLoginController,WalletController as FrontendWalletController};
+use App\Http\Controllers\ADMIN\{AdminViewController, AdminController,PageController,ProductCategoryController,ProductSubCategoryController,UsersController,VendorController,EmailIntegrationsController,ProductController,SettingController,TestimonialController,DiscountCouponController,OrderController,HomeContentController,MailController,LocaleFileController,WalletController as AdminWalletController};
+use App\Http\Controllers\Frontend\{CouponsController,HomeController,ProductController as FrontendProductController, HomeViewController,UserController,CartController,CommentController,SocialLoginController,WalletController};
 use App\Http\Controllers\Payment\{CheckoutController,PaymentsController,PayPalPaymentController,FlutterwaveController,StripePaymentController,RazorpayController,PawaPayController};
 use Laravel\Socialite\Facades\Socialite;
 /*
@@ -204,7 +204,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/send_mail', [MailController::class, 'send_mail'])->name('admin.email.sendmail');
 
         /* Wallet routes */
-        Route::controller(WalletController::class)->prefix('wallet')->group(function(){
+        Route::controller(AdminWalletController::class)->prefix('wallet')->group(function(){
             Route::get('/', 'index')->name('admin.wallet.index');
             Route::get('show/{id}', 'show')->name('admin.wallet.show');
             Route::get('withdraw-request', 'withdraw_request')->name('admin.wallet.withdraw-request');
@@ -311,7 +311,7 @@ Route::group(
                 Route::post('/become-an-vendor-request',  'become_an_vendor_request')->name('frontend.become-an-vendor-request');
             });
 
-            Route::get('/wallet', [FrontendWalletController::class, 'index'])->name('frontend.wallet');
+            Route::get('/wallet', [WalletController::class, 'index'])->name('frontend.wallet');
          
             //coupon code apply
             Route::post('/post-coupon-code', [CouponsController::class, 'checkCouponCode'])->name('frontend.coupon.apply');
@@ -393,6 +393,10 @@ Route::get('/facebook/callback', [SocialLoginController::class, 'facebookCallbac
 include  __DIR__.'/vendor_web.php';
 
 /* Vendor Routes End */
+
+Route::middleware('auth')->group(function () {
+    Route::get('/wallet', [WalletController::class, 'index'])->name('wallet.index');
+});
 
 Route::get('/cache', function () {
     Artisan::call('cache:clear');

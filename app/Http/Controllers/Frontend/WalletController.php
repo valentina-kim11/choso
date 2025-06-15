@@ -4,11 +4,16 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-use App\Models\Wallet;
+use App\Services\WalletService;
 
 class WalletController extends Controller
 {
+    private WalletService $walletService;
+
+    public function __construct(WalletService $walletService)
+    {
+        $this->walletService = $walletService;
+    }
     /**
      * Display the authenticated user's wallet and transactions.
      */
@@ -16,16 +21,7 @@ class WalletController extends Controller
     {
         $user = Auth::user();
 
-        $wallet = Wallet::firstOrCreate(
-            ['user_id' => $user->id],
-            [
-                'id' => Str::uuid()->toString(),
-                'balance' => 0,
-                'type' => 'DEFAULT',
-            ]
-        );
-
-        $transactions = $wallet->transactions()->orderByDesc('created_at')->paginate(10);
+        [$wallet, $transactions] = $this->walletService->getWalletWithTransactions($user->id);
 
         return view('frontend.wallet.index', compact('wallet', 'transactions'));
     }

@@ -79,4 +79,23 @@ class WalletService
     {
         return Wallet::where('user_id', $userId)->value('balance') ?? 0;
     }
+
+    /**
+     * Retrieve wallet and paginated transactions for a user.
+     */
+    public function getWalletWithTransactions(int $userId, int $perPage = 10): array
+    {
+        $wallet = Wallet::firstOrCreate(
+            ['user_id' => $userId],
+            [
+                'id' => Str::uuid()->toString(),
+                'balance' => 0,
+                'type' => 'DEFAULT',
+            ]
+        );
+
+        $transactions = $wallet->transactions()->orderByDesc('created_at')->paginate($perPage);
+
+        return [$wallet, $transactions];
+    }
 }
