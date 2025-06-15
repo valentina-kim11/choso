@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class AdminActionLog extends Model
 {
@@ -20,4 +21,9 @@ class AdminActionLog extends Model
     protected $casts = [
         'metadata' => 'array',
     ];
+
+    public function admin()
+    {
+        return $this->belongsTo(User::class, 'admin_id');
+    }
 }
