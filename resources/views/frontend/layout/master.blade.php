@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="{{ session('theme', 'light') === 'dark' ? 'dark' : '' }}">
 <head>
 	<!--=== meta tags ===-->
 	<meta charset="utf-8">
@@ -20,19 +20,9 @@
 	
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-	   <style>
-        :root {
-            --theme-color: <?php echo @$setting->primary_color ?? '#00796B' ?>;
-            --secondary-color: <?php echo @$setting->secondary_color ?? '#585C66' ?>;
-            --text-color: <?php echo @$setting->text_color ?? '#53627a' ?>;
-            --background:<?php echo @$setting->body_color ?? '#eff5fc' ?>;
-            --bgcolour:<?php echo @$setting->body_color ?? '#eff5fc' ?>;
-           --theme-color-rgb: <?php echo hexToRgb(@$setting->primary_color ??  '#00796B')?>;
-           --secondary-color-rgb:<?php echo hexToRgb(@$setting->secondary_color ?? '#585C66')?>;
-        }
-    </style>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
 
     <!--=== custom css ===-->
     <link rel="stylesheet" href="{{ $ASSET_URL }}assets/css/bootstrap.min.css" />

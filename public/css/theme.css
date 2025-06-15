@@ -1,0 +1,63 @@
+:root {
+  --color-primary: #00796B;
+  --color-secondary: #585C66;
+  --color-warning: #FFD54F;
+  --color-danger: #EF5350;
+  --color-link: #00796B;
+  --text-main: #111827;
+  --bg-main: #ffffff;
+  --bg-card: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: #ced4da;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+
+.card, .section, .box, .content, .container, .main, .sp-container {
+  background-color: var(--bg-card);
+  color: var(--text-main);
+}
+
+input, select, textarea {
+  background-color: var(--input-bg);
+  color: var(--text-main);
+  border-color: var(--input-border);
+}
+
+a {
+  color: var(--color-link);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+.btn-warning {
+  background-color: var(--color-warning);
+  border-color: var(--color-warning);
+  color: #111827;
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  border-color: var(--color-danger);
+  color: #fff;
+}
+
+.dark {
+  --color-primary: #00796B;
+  --color-secondary: #585C66;
+  --color-warning: #FFD54F;
+  --color-danger: #EF5350;
+  --color-link: #4FC3F7;
+  --text-main: #E0F2F1;
+  --bg-main: #111827;
+  --bg-card: #1f2937;
+  --input-bg: #374151;
+  --input-border: #4FC3F7;
+}

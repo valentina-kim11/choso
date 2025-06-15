@@ -172,6 +172,7 @@
             @else
                 <a href="{{ route('frontend.sign-in', app()->getLocale()) }}" class="tp_btn">@lang('master.header.Login')</a>
             @endif
+            <button id="dark-mode-toggle" class="tp_btn" type="button">Toggle Theme</button>
         </div>
     </div>
 </div>

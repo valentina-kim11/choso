@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="{{ session('theme', 'light') === 'dark' ? 'dark' : '' }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -51,15 +51,7 @@
     <!--=== Required meta tags ===-->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-     <style>
-        :root {
-            --theme-color: <?php echo @$setting->primary_color ?? '#216fff' ?>;
-            --secondary-color: <?php echo @$setting->secondary_color ?? '#566c8e' ?>;
-            --text-color: <?php echo @$setting->text_color ?? '#53627a' ?>;
-            --background:<?php echo @$setting->body_color ?? '#eff5fc' ?>;
-            --bgcolour:<?php echo @$setting->body_color ?? '#f5f8fa' ?>;
-        }
-        </style>
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
     <!--=== custom css ===-->
     <link rel="stylesheet" href="{{ $ASSET_URL }}assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="{{ $ASSET_URL }}assets/css/swiper.min.css" />
