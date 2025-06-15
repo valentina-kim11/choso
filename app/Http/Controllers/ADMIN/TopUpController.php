@@ -7,6 +7,7 @@ use App\Models\WalletTransaction;
 use App\Services\WalletService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class TopUpController extends Controller
 {
@@ -20,13 +21,36 @@ class TopUpController extends Controller
     /**
      * Display pending top-up requests.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $transactions = WalletTransaction::with('wallet.getUser')
-            ->where('source', 'topup')
-            ->where('status', 0)
-            ->orderByDesc('created_at')
-            ->paginate(10);
+        $query = WalletTransaction::with('wallet.getUser')
+            ->where('source', 'topup');
+
+        if ($request->filled('status') && $request->status !== 'all') {
+            $statusMap = ['pending' => 0, 'approved' => 1];
+            if (isset($statusMap[$request->status])) {
+                $query->where('status', $statusMap[$request->status]);
+            }
+        }
+
+        if ($request->filled('user')) {
+            $query->whereHas('wallet.getUser', function ($q) use ($request) {
+                $q->where('id', $request->user)
+                    ->orWhere('email', 'like', '%' . $request->user . '%');
+            });
+        }
+
+        if ($request->filled('from')) {
+            $query->whereDate('created_at', '>=', $request->from);
+        }
+
+        if ($request->filled('to')) {
+            $query->whereDate('created_at', '<=', $request->to);
+        }
+
+        $transactions = $query->orderByDesc('created_at')
+            ->paginate(10)
+            ->appends($request->query());
 
         return view('admin.topups.index', compact('transactions'));
     }
