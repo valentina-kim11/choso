@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ADMIN\{AdminViewController, AdminController,PageController,ProductCategoryController,ProductSubCategoryController,UsersController,VendorController,EmailIntegrationsController,ProductController,SettingController,TestimonialController,DiscountCouponController,OrderController,HomeContentController,MailController,LocaleFileController,WalletController};
-use App\Http\Controllers\Frontend\{CouponsController,HomeController,ProductController as FrontendProductController, HomeViewController,UserController,CartController,CommentController,SocialLoginController};
+use App\Http\Controllers\Frontend\{CouponsController,HomeController,ProductController as FrontendProductController, HomeViewController,UserController,CartController,CommentController,SocialLoginController,WalletController as FrontendWalletController};
 use App\Http\Controllers\Payment\{CheckoutController,PaymentsController,PayPalPaymentController,FlutterwaveController,StripePaymentController,RazorpayController,PawaPayController};
 use Laravel\Socialite\Facades\Socialite;
 /*
@@ -310,6 +310,8 @@ Route::group(
                 Route::post('/change-password',  'change_password')->name('frontend.change-password');
                 Route::post('/become-an-vendor-request',  'become_an_vendor_request')->name('frontend.become-an-vendor-request');
             });
+
+            Route::get('/wallet', [FrontendWalletController::class, 'index'])->name('frontend.wallet');
          
             //coupon code apply
             Route::post('/post-coupon-code', [CouponsController::class, 'checkCouponCode'])->name('frontend.coupon.apply');
