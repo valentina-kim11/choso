@@ -51,21 +51,21 @@
 
                                 <div class="th_product_detail">
                                     <div class="theme_label">Tên chủ tài khoản :</div>
-                                    <div class="product_info product_name">{{ @$user_details->account_holder_name }}</div>
+                                    <div class="product_info product_name">{{ optional($bank_account)->account_holder ?? @$user_details->account_holder_name }}</div>
                                 </div>
                                 <div class="th_product_detail">
                                     <div class="theme_label">Tên ngân hàng :</div>
-                                    <div class="product_info product_name">{{ @$user_details->bank_name }}</div>
+                                    <div class="product_info product_name">{{ optional($bank_account)->bank_name ?? @$user_details->bank_name }}</div>
                                 </div>
 
                                 <div class="th_product_detail">
                                     <div class="theme_label">Số tài khoản ngân hàng :</div>
-                                    <div class="product_info product_name">{{ @$user_details->bank_account_number }}</div>
+                                    <div class="product_info product_name">{{ optional($bank_account)->account_number ?? @$user_details->bank_account_number }}</div>
                                 </div>
 
                                 <div class="th_product_detail">
                                     <div class="theme_label">Mã IFSC : </div>
-                                    <div class="product_info">{{ @$user_details->ifsc_code }}</div>
+                                    <div class="product_info">{{ optional($bank_account)->method ?? @$user_details->ifsc_code }}</div>
                                 </div>
 
 
@@ -94,6 +94,8 @@
                                                     Chờ xử lý</option>
                                                 <option value="1" @if ($data->status == 1) selected @endif>
                                                     Đã thanh toán</option>
+                                                <option value="2" @if ($data->status == 2) selected @endif>
+                                                    Từ chối</option>
                                             </select>
                                         </div>
                                     </div>

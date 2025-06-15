@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Author;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\{Wallet, WalletTransaction};
+use App\Models\{Wallet, WalletTransaction, UserBankAccount, WalletTransactionBankAccount};
 
 
 
@@ -28,6 +28,7 @@ class WalletController extends Controller
         $user = auth()->user();
 
         [$wallet, $transactions] = $this->walletService->getWalletWithTransactions($user->id);
+        $accounts = UserBankAccount::where('user_id',$user->id)->get();
 
         $data['data'] = $transactions;
         $data['total_amount'] = $wallet->balance;
@@ -40,6 +41,7 @@ class WalletController extends Controller
 
     
         $data['searchable'] =  Wallet::$searchable;
+        $data['accounts'] = $accounts;
 
         return view('author.wallet.index',$data);
     }
@@ -67,7 +69,10 @@ class WalletController extends Controller
      */
 
     public function store(request $request){
-        $rules['amount'] = 'required|numeric';
+        $rules = [
+            'amount' => 'required|numeric',
+            'bank_account_id' => 'required|exists:user_bank_accounts,id'
+        ];
         $userId =  auth()->id();
 
         $total_amount = $this->walletService->getBalance($userId);
@@ -81,7 +86,7 @@ class WalletController extends Controller
     
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails())
-            return response()->json(['status' => false, 'msg' => $validator->messages()->first()], 400);  
+            return response()->json(['status' => false, 'msg' => $validator->messages()->first()], 400);
 
         try {
             $this->walletService->debit(
@@ -89,6 +94,15 @@ class WalletController extends Controller
                 $request->amount,
                 'WITHDRAW'
             );
+            $transaction = WalletTransaction::whereHas('wallet', function($q) use ($userId){
+                $q->where('user_id',$userId);
+            })->where('type','debit')->where('source','WITHDRAW')->latest()->first();
+            if($transaction){
+                WalletTransactionBankAccount::create([
+                    'wallet_transaction_id' => $transaction->id,
+                    'bank_account_id' => $request->bank_account_id,
+                ]);
+            }
         } catch (\Exception $e) {
             return response()->json(['status' => false,'msg' => $e->getMessage() ], 400);
         }

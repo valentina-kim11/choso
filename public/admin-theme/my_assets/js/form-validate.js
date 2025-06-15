@@ -418,8 +418,25 @@ $(document).ready(function () {
      .find("#update-request-form")
      .validate({
          submitHandler: function (form) {
-             var postData = $("#update-request-form").serializeArray();
-             add_update_details("update-request-form", postData);
+             iziToast.question({
+                 timeout: 20000,
+                 close: false,
+                 overlay: true,
+                 displayMode: 'once',
+                 title: 'Confirm',
+                 message: 'Update withdraw request?',
+                 position: 'center',
+                 buttons: [
+                     ['<button><b>YES</b></button>', function (instance, toast) {
+                         var postData = $("#update-request-form").serializeArray();
+                         add_update_details("update-request-form", postData);
+                         instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                     }, true],
+                     ['<button>NO</button>', function (instance, toast) {
+                         instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                     }]
+                 ]
+             });
          },
      });
 
@@ -637,8 +654,25 @@ function withdrawValidation(form_id,MinWithdraw,MaxWithdraw){
             }
         },
         submitHandler: function(form) {
-            var postData = $("#"+form_id).serializeArray();
-            add_update_details(form_id, postData);
+            iziToast.question({
+                timeout: 20000,
+                close: false,
+                overlay: true,
+                displayMode: 'once',
+                title: 'Confirm',
+                message: 'Proceed with withdrawal?',
+                position: 'center',
+                buttons: [
+                    ['<button><b>YES</b></button>', function (instance, toast) {
+                        var postData = $("#"+form_id).serializeArray();
+                        add_update_details(form_id, postData);
+                        instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                    }, true],
+                    ['<button>NO</button>', function (instance, toast) {
+                        instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                    }]
+                ]
+            });
         }
     });
 }

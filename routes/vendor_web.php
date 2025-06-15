@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Author\{AuthorViewController, AuthorController,ProductCategoryController,ProductSubCategoryController,ProductController,SettingController,TestimonialController,DiscountCouponController,OrderController,HomeContentController,UsersController,WalletController};
+use App\Http\Controllers\Author\{AuthorViewController, AuthorController,ProductCategoryController,ProductSubCategoryController,ProductController,SettingController,TestimonialController,DiscountCouponController,OrderController,HomeContentController,UsersController,WalletController,BankAccountController};
 
 /* Vendor Routes Start */
 Route::group(['prefix' => 'author'], function () {
@@ -56,6 +56,12 @@ Route::group(['prefix' => 'author'], function () {
             Route::get('/', 'index')->name('vendor.wallet.index');
             Route::get('show/{id}', 'show')->name('vendor.wallet.show');
             Route::post('store', 'store')->name('vendor.wallet.store');
+        });
+
+        Route::controller(BankAccountController::class)->prefix('bank-accounts')->group(function(){
+            Route::get('/', 'index')->name('vendor.bank_accounts.index');
+            Route::post('/', 'store')->name('vendor.bank_accounts.store');
+            Route::delete('{id}', 'destroy')->name('vendor.bank_accounts.destroy');
         });
        
         Route::controller(ProductController::class)->prefix('product')->group(function(){
