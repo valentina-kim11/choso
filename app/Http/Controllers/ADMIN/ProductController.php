@@ -4,8 +4,8 @@ namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Admin\{Product,ProductMeta,ProductCategory,ProductSubCategory,Comments,Rating};
-use App\Models\Frontend\Product as Product2;
+use App\Models\Product;
+use App\Models\Admin\{ProductMeta,ProductCategory,ProductSubCategory,Comments,Rating};
 use Validator,Redirect,Storage,Response;
 use Illuminate\Validation\Rule;
 
@@ -264,7 +264,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product2::find($id);
+        $product = Product::find($id);
         $data['product'] = $product;
         $data['product_meta']= (object) ProductMeta::where('product_id',$id)->pluck('value','key')->toArray();
         return  view('frontend.product.single_details',$data);

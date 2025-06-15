@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Author;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Admin\{Product,ProductMeta,ProductCategory,ProductSubCategory,Comments,Rating};
+use App\Models\Product;
+use App\Models\Admin\{ProductMeta,ProductCategory,ProductSubCategory,Comments,Rating};
 use Validator,Auth;
-use App\Models\Frontend\Product as Product2;
 use Illuminate\Validation\Rule;
 use Storage;
 
@@ -276,7 +276,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product  = Product2::where('user_id',$this->userId)->find($id);
+        $product  = Product::where('user_id',$this->userId)->find($id);
         $data['product'] = $product;
         $data['product_meta']= (object) ProductMeta::where('product_id',$id)->pluck('value','key')->toArray();
         return  view('frontend.product.single_details',$data);

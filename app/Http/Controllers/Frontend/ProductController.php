@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Frontend\{Product,ProductMeta,ProductCategory,ProductSubCategory};
+use App\Models\Product;
+use App\Models\Frontend\{ProductMeta,ProductCategory,ProductSubCategory};
 use App\Models\ProductAnalysis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;

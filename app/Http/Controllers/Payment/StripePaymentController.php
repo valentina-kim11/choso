@@ -7,7 +7,7 @@ use Stripe;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Cart,Auth;
-use App\Models\Frontend\Product;
+use App\Models\Product;
 class StripePaymentController extends Controller
 {
    /**
