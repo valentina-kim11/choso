@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\{Wallet, WalletTransaction};
 
-use App\Models\{Wallet,WalletTransaction};
+
 
 use App\Services\WalletService;
 use Validator;

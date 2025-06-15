@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\{Wallet,WalletTransaction,Setting,UserAdditionalInfo};
 
-use App\Models\{Wallet,Setting,UserAdditionalInfo,WalletTransaction};
+
 
 
 class WalletController extends Controller
