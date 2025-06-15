@@ -5,12 +5,19 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Wallet;
+use App\Services\WalletService;
 
 class TopUpController extends Controller
 {
+    private WalletService $walletService;
+
+    public function __construct(WalletService $walletService)
+    {
+        $this->walletService = $walletService;
+    }
+
     public function create()
     {
         $user = Auth::user();
@@ -32,26 +39,7 @@ class TopUpController extends Controller
         ]);
 
         $user = $request->user();
-        $wallet = Wallet::firstOrCreate(
-            ['user_id' => $user->id],
-            [
-                'id' => Str::uuid()->toString(),
-                'balance' => 0,
-                'type' => 'DEFAULT',
-            ]
-        );
-
-        DB::table('wallet_transactions')->insert([
-            'id' => Str::uuid()->toString(),
-            'wallet_id' => $wallet->id,
-            'amount' => $validated['amount'],
-            'type' => 'credit',
-            'source' => 'topup',
-            'status' => 0,
-            'description' => 'Top up request',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $this->walletService->logPendingTopUp($user->id, $validated['amount']);
 
         return redirect()
             ->route('wallet.topup.create')

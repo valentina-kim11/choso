@@ -28,15 +28,6 @@ class Wallet extends Model
         'type'=> 'type',
     ];
 
-    public function getStatusStrAttribute()
-    {
-        if($this->status == 1)
-        return 'Withdrawal completed!';
-        elseif($this->status == 2)
-        return 'Reject';
-        else
-        return 'Pending';
-    }
 
     public function getUser()
     {

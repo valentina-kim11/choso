@@ -6,12 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\{Wallet,WalletTransaction,Setting,UserAdditionalInfo};
+use App\Services\WalletService;
+use Illuminate\Support\Facades\DB;
 
 
 
 
 class WalletController extends Controller
 {
+    private WalletService $walletService;
+
+    public function __construct(WalletService $walletService)
+    {
+        $this->walletService = $walletService;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -41,13 +49,13 @@ class WalletController extends Controller
      */
     public function withdraw_request()
     {
-        $Obj = new WalletTransaction();
-
-        $data['data'] =  $Obj->filter()->where('source','WITHDRAW')->orderBy('id','DESC')->paginate(10);
-        $data['searchable'] =  [];
-
-        $data['data'] =  $Obj->with('wallet.getUser')->filter()->where('type','debit')->orderBy('id','DESC')->paginate(10);
-        $data['searchable'] =  Wallet::$searchable;
+        $data['data'] = WalletTransaction::with('wallet.getUser')
+            ->filter()
+            ->where('source', 'WITHDRAW')
+            ->where('type', 'debit')
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+        $data['searchable'] = Wallet::$searchable;
 
         return view('admin.wallet.withdraw_request',$data);
     }
@@ -97,17 +105,33 @@ class WalletController extends Controller
         return view('admin.wallet.edit_request',$data);
     }
 
-    public function  update_request(request $request)
+    public function  update_request(Request $request)
     {
-        $data = WalletTransaction::find($request->id);
+        $data = WalletTransaction::with('wallet')->find($request->id);
         if(empty($data)){
             return redirect()->route('admin.wallet.withdraw-request');
         }
-        $data->status = $request->status;
-        $data->description = $request->note;
-        $data->save();
 
-        return response()->json(['status' => true,'msg' =>"Withdraw request updated successfully.",'url'=>route('admin.wallet.withdraw-request')], 200);
+        DB::transaction(function () use ($data, $request) {
+            if ((int) $request->status === 2 && $data->status != 2) {
+                $this->walletService->credit(
+                    $data->wallet->user_id,
+                    $data->amount,
+                    'WITHDRAW_REJECT',
+                    'Withdraw rejected'
+                );
+            }
+
+            $data->status = $request->status;
+            $data->description = $request->note;
+            $data->save();
+        });
+
+        return response()->json([
+            'status' => true,
+            'msg' => "Withdraw request updated successfully.",
+            'url' => route('admin.wallet.withdraw-request')
+        ], 200);
 
     }
    

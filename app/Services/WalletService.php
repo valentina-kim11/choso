@@ -13,6 +13,9 @@ class WalletService
      */
     public function credit(int $userId, float $amount, string $source, ?string $desc = null)
     {
+        if ($amount <= 0) {
+            throw new \InvalidArgumentException('Amount must be positive');
+        }
         return DB::transaction(function () use ($userId, $amount, $source, $desc) {
             $wallet = Wallet::firstOrCreate(
                 ['user_id' => $userId],
@@ -47,6 +50,9 @@ class WalletService
      */
     public function debit(int $userId, float $amount, string $source, ?string $desc = null)
     {
+        if ($amount <= 0) {
+            throw new \InvalidArgumentException('Amount must be positive');
+        }
         return DB::transaction(function () use ($userId, $amount, $source, $desc) {
             $wallet = Wallet::firstOrCreate(
                 ['user_id' => $userId],
@@ -70,6 +76,7 @@ class WalletService
                 'amount' => $amount,
                 'type' => 'debit',
                 'source' => $source,
+                'status' => 0,
                 'description' => $desc,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -104,6 +111,37 @@ class WalletService
         $transactions = $wallet->transactions()->orderByDesc('created_at')->paginate($perPage);
 
         return [$wallet, $transactions];
+    }
+
+    /**
+     * Log a pending top-up request without affecting balance.
+     */
+    public function logPendingTopUp(int $userId, float $amount, ?string $desc = 'Top up request'): void
+    {
+        if ($amount <= 0) {
+            throw new \InvalidArgumentException('Amount must be positive');
+        }
+
+        $wallet = Wallet::firstOrCreate(
+            ['user_id' => $userId],
+            [
+                'id' => Str::uuid()->toString(),
+                'balance' => 0,
+                'type' => 'DEFAULT',
+            ]
+        );
+
+        DB::table('wallet_transactions')->insert([
+            'id' => Str::uuid()->toString(),
+            'wallet_id' => $wallet->id,
+            'amount' => $amount,
+            'type' => 'credit',
+            'source' => 'topup',
+            'status' => 0,
+            'description' => $desc,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     /**
