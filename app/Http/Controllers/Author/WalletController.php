@@ -29,9 +29,21 @@ class WalletController extends Controller
 
         $data['total_amount'] = $this->walletService->getBalance($user->id);
 
+
+        $wallet = Wallet::where('user_id',$user->id)->first();
+        $data['withdraw_amount'] = 0;
+        if ($wallet) {
+            $data['withdraw_amount'] = $wallet->transactions()
+                ->where('type', 'debit')
+                ->where('source', 'WITHDRAW')
+                ->where('status', 1)
+                ->sum('amount');
+        }
+
         $data['withdraw_amount'] = WalletTransaction::whereHas('wallet', function($q) use ($user) {
             $q->where('user_id', $user->id);
         })->where('type', 'debit')->sum('amount');
+
     
         $data['searchable'] =  Wallet::$searchable;
         return view('author.wallet.index',$data);

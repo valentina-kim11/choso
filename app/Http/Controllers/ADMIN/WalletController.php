@@ -13,8 +13,14 @@ class WalletController extends Controller
      */
     public function index()
     {
+
+        $Obj = new Wallet();
+        $data['data'] =  $Obj->filter()->orderBy('id','DESC')->paginate(10);
+        $data['total_amount'] = $Obj->sum('balance');
+
         $Obj = new WalletTransaction();
         $data['data'] =  $Obj->with('wallet.getUser')->filter()->orderBy('id','DESC')->paginate(10);
+
         $data['searchable'] =  Wallet::$searchable;
         return view('admin.wallet.index',$data);
     }

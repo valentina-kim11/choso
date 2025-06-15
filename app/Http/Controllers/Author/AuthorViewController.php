@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Author;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{User,ProductAnalysis,Order,OrderProduct,UserAdditionalInfo,Wallet,WalletTransaction};
+
+
 use App\Services\WalletService;
+
 use App\Models\Admin\DiscountCoupon;
 use App\Models\Product;
 use Auth;
 use App\Charts\DashboardChart;
 use Carbon\Carbon;
+use App\Services\WalletService;
 class AuthorViewController extends Controller
 {
     private WalletService $walletService;
@@ -62,11 +66,26 @@ class AuthorViewController extends Controller
         $data['total_product_view'] = $ProductAnalysisQuery->where('user_id',$user->id)->count();
         $data['total_product_sale']= $OrderProduct->count();
         $data['total_product_sale_amount']=  $Order->where('vendor_id',$user->id)->sum('vendor_amount');
+
+
+        $data['available_balance'] = $this->walletService->getBalance($user->id);
+
+        $wallet = Wallet::where('user_id',$user->id)->first();
+        $data['withdraw_amount'] = 0;
+        if ($wallet) {
+            $data['withdraw_amount'] = $wallet->transactions()
+                ->where('type', 'debit')
+                ->where('source', 'WITHDRAW')
+                ->where('status', 1)
+                ->sum('amount');
+        }
+
         $data['available_balance'] = $this->walletService->getBalance($user->id);
 
         $data['withdraw_amount'] = WalletTransaction::whereHas('wallet', function($q) use ($user) {
             $q->where('user_id', $user->id);
         })->where('type', 'debit')->sum('amount');
+
     
         $mobile = $ProductAnalysis->where('user_id',$user->id)->where('device','Mobile')->count();
         $desktop = $ProductAnalysis->where('user_id',$user->id)->where('device','Desktop')->count();
