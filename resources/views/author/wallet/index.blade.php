@@ -75,8 +75,13 @@
                                                     <span class="text-success"> {{ strtoupper($item->type) }} <span>
                                                     @endif
                                                 </td>
+
+                                                <td>{{ $item->type == 'credit' ? number_format($item->amount, 0, ',', '.') . ' Scoin' : '-' }}</td>
+                                                <td>{{ $item->type == 'debit' ? number_format($item->amount, 0, ',', '.') . ' Scoin' : '-' }}</td>
+
                                                 <td>{{ $item->type == 'credit' ? number_format($item->amount, 0, ',', '.') : '-' }} Scoin</td>
                                                 <td>{{ $item->type == 'debit' ? number_format($item->amount, 0, ',', '.') : '-' }} Scoin</td>
+
                                                 <td>{{ $item->created_at }}</td>
                                                 <td>{{ $item->type == 'debit' ? $item->status_str : 'Đã cộng tiền'}}</td>
                                                 <td>

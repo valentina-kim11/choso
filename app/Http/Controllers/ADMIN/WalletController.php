@@ -4,7 +4,11 @@ namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
+use App\Models\{Wallet,WalletTransaction,Setting,UserAdditionalInfo};
+
 use App\Models\{Wallet,Setting,UserAdditionalInfo,WalletTransaction};
+
 
 class WalletController extends Controller
 {
@@ -14,6 +18,12 @@ class WalletController extends Controller
     public function index()
     {
 
+        $Obj = new WalletTransaction();
+        $data['data'] =  $Obj->filter()->orderBy('id','DESC')->paginate(10);
+        $data['total_amount'] = $Obj->sum('amount');
+        $data['searchable'] =  [];
+
+
         $Obj = new Wallet();
         $data['data'] =  $Obj->filter()->orderBy('id','DESC')->paginate(10);
         $data['total_amount'] = $Obj->sum('balance');
@@ -22,6 +32,7 @@ class WalletController extends Controller
         $data['data'] =  $Obj->with('wallet.getUser')->filter()->orderBy('id','DESC')->paginate(10);
 
         $data['searchable'] =  Wallet::$searchable;
+
         return view('admin.wallet.index',$data);
     }
 
@@ -31,8 +42,13 @@ class WalletController extends Controller
     public function withdraw_request()
     {
         $Obj = new WalletTransaction();
+
+        $data['data'] =  $Obj->filter()->where('source','WITHDRAW')->orderBy('id','DESC')->paginate(10);
+        $data['searchable'] =  [];
+
         $data['data'] =  $Obj->with('wallet.getUser')->filter()->where('type','debit')->orderBy('id','DESC')->paginate(10);
         $data['searchable'] =  Wallet::$searchable;
+
         return view('admin.wallet.withdraw_request',$data);
     }
 
@@ -50,7 +66,11 @@ class WalletController extends Controller
      */
     public function show(string $id)
     {
+
+        $data = WalletTransaction::find($id);
+
         $data = WalletTransaction::with('wallet.getUser')->find($id);
+
         if(empty($data)){
             return redirect()->route('admin.wallet.index');
         }
@@ -63,7 +83,11 @@ class WalletController extends Controller
      */
     public function  edit_request(string $id)
     {
+
+        $data = WalletTransaction::find($id);
+
         $data = WalletTransaction::with('wallet.getUser')->find($id);
+
         if(empty($data)){
             return redirect()->route('admin.wallet.withdraw-request');
         }
