@@ -9,7 +9,7 @@
     <div class="tp_main_content_wrappo">
         <div class="tp_tab_wrappo">
 
-            <h4 class="tp_heading">Danh sách nạp tiền</h4>
+    
 
             <h4 class="tp_heading">Danh sách nạp chờ duyệt</h4>
             @if(session('success'))

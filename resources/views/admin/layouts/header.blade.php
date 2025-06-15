@@ -26,7 +26,7 @@
                             </svg>
                             </a></p>
                     </div>
-                    <button id="admin-dark-mode-toggle" class="tp_btn" type="button">Toggle Theme</button>
+                    
                     <div class="tp_menu">
                         <div class="menu_toggle">
                             <span></span>
