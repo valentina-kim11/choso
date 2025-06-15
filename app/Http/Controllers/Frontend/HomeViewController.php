@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Frontend\{ProductCategory,ProductSubCategory,Product,Page,Testimonial,Wishlist,HomeContent};
+use App\Models\Product;
+use App\Models\Frontend\{ProductCategory,ProductSubCategory,Page,Testimonial,Wishlist,HomeContent};
 use App\Models\{Order,OrderProduct,Country,VendorRequest};
 use Auth, Session, Redirect, DB;
 use Carbon\Carbon;

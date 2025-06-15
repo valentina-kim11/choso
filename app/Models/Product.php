@@ -1,16 +1,19 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\{User,Order,OrderProduct};
-use Image,Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Image,Storage;
+use App\Models\User;
+use App\Models\{Order,OrderProduct};
+use App\Models\Admin\{ProductCategory,ProductSubCategory,ProductMeta,Rating};
+use App\Models\Frontend\{Comments,Wishlist};
 
 class Product extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     public $fillable = [
         'product_type',
@@ -45,41 +48,57 @@ class Product extends Model
         'product_details'
     ];
 
+    public function getThumbAttribute()
+    {
+        if ($this->image != ""){
+            $path = str_replace('images','thmbnail',$this->image);
+            return Storage::url($path);
+        }
+        return "";
+    }
+
+    public function getImageUrlAttribute()
+    {
+        if ($this->image != "")
+            return Storage::url($this->image);
+
+        return $this->image;
+    }
+
     public function getImageAttribute($path)
     {
         if ($path != "")
-            return \Storage::url($path);
+            return Storage::url($path);
 
         return $path;
     }
 
     public function save(array $options = []){
-       
-    if (request()->hasFile("image") && request()->file("image")->isValid()) {
-        $image = request()->file('image');
-        $imageName = time() . uniqid() . '.' . $image->extension();
-        
-        if (str_starts_with($image->getMimeType(), 'image/')) {
-            $this->image = $image->storeAs($this->folderPath(), $imageName);
+        if (request()->hasFile("image") && request()->file("image")->isValid()) {
+            $image = request()->file('image');
+            $imageName = time() . uniqid() . '.' . $image->extension();
 
-            $img = Image::make($image->path());
-            $img->resize(400, 250, function ($constraint) {
-                $constraint->aspectRatio();
-            });
+            if (str_starts_with($image->getMimeType(), 'image/')) {
+                $this->image = $image->storeAs($this->folderPath(), $imageName);
 
-            $tempPath = sys_get_temp_dir() . '/' . $imageName;
-            $img->save($tempPath);
-            Storage::put($this->thumbfolderPath() . '/' . $imageName, file_get_contents($tempPath), 'public');
-            unlink($tempPath);
-        } elseif (str_starts_with($image->getMimeType(), 'video/')) {
-            $this->image = $image->storeAs($this->folderPath(), $imageName);
-        } elseif (str_starts_with($image->getMimeType(), 'audio/')) {
-            $this->image = $image->storeAs($this->folderPath(), $imageName);
+                $img = Image::make($image->path());
+                $img->resize(400, 250, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                $tempPath = sys_get_temp_dir() . '/' . $imageName;
+                $img->save($tempPath);
+                Storage::put($this->thumbfolderPath() . '/' . $imageName, file_get_contents($tempPath), 'public');
+                unlink($tempPath);
+            } elseif (str_starts_with($image->getMimeType(), 'video/')) {
+                $this->image = $image->storeAs($this->folderPath(), $imageName);
+            } elseif (str_starts_with($image->getMimeType(), 'audio/')) {
+                $this->image = $image->storeAs($this->folderPath(), $imageName);
+            }
         }
+        return parent::save($options);
     }
-    return parent::save($options);
-   }
- 
+
     public function folderPath()
     {
         return "product/images/" . strtolower(date("FY"));
@@ -95,10 +114,8 @@ class Product extends Model
     public function filefolderPath()
     {
         return "product/files/" . strtolower(date("FY"));
-        //return "tmp/uploads/";
-        
     }
-  
+
     public function getCategory()
     {
         return $this->hasOne(ProductCategory::class, 'id','category_id');
@@ -112,7 +129,6 @@ class Product extends Model
     {
         return unserialize($val);
     }
-
 
     public function scopeFilter($query)
     {
@@ -133,12 +149,15 @@ class Product extends Model
         return;
     }
 
+    public function scopeMightAlsoLike($query) {
+        return $query->inRandomOrder()->where('is_active',1)->take(3);
+    }
 
     public function getProductReview(){
         return $this->hasMany(Rating::class, 'product_id','id')->whereNull('parent_id');
     }
     public function getProductComment(){
-        return $this->hasMany(Rating::class, 'product_id','id')->whereNull('parent_id');
+        return $this->hasMany(Comments::class, 'product_id','id')->whereNull('parent_id');
     }
 
     public function getNetRevenue(){
@@ -146,9 +165,9 @@ class Product extends Model
     }
 
     public function getProductMetaAttribute(){
-        
         return (object) $this->hasOne(ProductMeta::class, 'product_id','id')->pluck('value','key')->toArray();
     }
+
     public function productPrice(){
         $free= 0; $from = 0; $to = 0; $price = 0; $offer_price = 0;
         if($this->is_free == '1'){
@@ -160,14 +179,16 @@ class Product extends Model
                 foreach ($priceArr as $key => $value){
                     if($key == 0){
                         if (!empty(@$value['offer_price']) && @$this->is_offer != 0){
-                            $from = @$value['offer_price'];                                      
+                            $from = @$value['offer_price'];
+
                         }
                         else{
                             $from =  @$value['price'];
                         }
                     }else{
                         if (!empty(@$value['offer_price']) && @$this->is_offer != 0){
-                            $to = @$value['offer_price'];                                      
+                            $to = @$value['offer_price'];
+
                         }
                         else{
                             $to =  @$value['price'];
@@ -178,9 +199,9 @@ class Product extends Model
             else{
                 if (@$this->is_offer != '0')
                    $offer_price  = $this->offer_price;
-                
+
                    $price =  $this->price;
-       
+
             }
         }
 
@@ -198,5 +219,45 @@ class Product extends Model
         else
             return 'Pending';
     }
-    
+
+    public function getdownlaodfilelink($variants){
+        $data = (object) $this->hasOne(ProductMeta::class, 'product_id','id')->pluck('value','key')->toArray();
+        $newFileArr=[];
+        $fileArr = unserialize(@$data->multi_file);
+
+        if(!empty($variants)){
+            $variants = unserialize($variants);
+            foreach ($variants as $key => $v2) {
+                foreach ($fileArr as $key => $v3) {
+                    if($v3['file_price'] == @$v2['price_id'] || $v3['file_price'] == "ALL"){
+                        $v3['product_id'] = base64url_encode($this->id);
+                        unset($v3['file_external_url']);
+                        unset($v3['file_url']);
+                        $newFileArr[] = $v3;
+                    }
+                }
+            }
+        }else{
+            foreach ($fileArr as $key => $v3) {
+                $v3['product_id'] =  base64url_encode($this->id);
+                unset($v3['file_external_url']);
+                unset($v3['file_url']);
+                $newFileArr[] = $v3;
+            }
+        }
+        return $newFileArr;
+    }
+
+    public function getUserProductReview(){
+        return $this->hasOne(Rating::class, 'product_id','id')->where('user_id',auth()->id());
+    }
+
+    public function ratingUpdate($id)
+    {
+        return  Rating::where('product_id',4)->avg('rating');
+    }
+
+    public function check_in_wishlist(){
+        return $this->hasOne(Wishlist::class, 'product_id','id')->where('user_id',auth()->id())->exists();
+    }
 }

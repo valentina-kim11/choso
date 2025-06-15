@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Frontend\{Product,ProductMeta,Wishlist};
+use App\Models\Product;
+use App\Models\Frontend\{ProductMeta,Wishlist};
 use Cart,Auth;
 class CartController extends Controller
 {
@@ -97,7 +98,7 @@ class CartController extends Controller
 
 
         /* created a default cart array for storing cart values */
-        Cart::instance('default')->add($product->id, $productName, 1, $productPrice, ['variants' => $variants])->associate('App\Models\Frontend\Product');
+        Cart::instance('default')->add($product->id, $productName, 1, $productPrice, ['variants' => $variants])->associate('App\Models\Product');
        
         return response()->json(['status' => true, 'msg' => trans('frontend_msg.prod_added_to_cart'),'url'=>$url], 200); 
     }
@@ -124,7 +125,7 @@ class CartController extends Controller
             return redirect()->route('frontend.cart.index');
         
         }
-        Cart::instance('saveForLater')->add($item->id, $item->name, 1, $item->price)->associate('App\Models\Frontend\Product');
+        Cart::instance('saveForLater')->add($item->id, $item->name, 1, $item->price)->associate('App\Models\Product');
         session()->flash('success', 'Item has been saved for later');
         return redirect()->route('frontend.cart.index');
     }
@@ -140,7 +141,7 @@ class CartController extends Controller
             session()->flash('success', 'Item is already in the cart');
             return redirect()->route('frontend.cart.index');
         }
-        Cart::instance('default')->add($item->id, $item->name, 1, $item->price)->associate('App\Models\Frontend\Product');
+        Cart::instance('default')->add($item->id, $item->name, 1, $item->price)->associate('App\Models\Product');
         session()->flash('success', 'item added to the cart');
         return redirect()->route('frontend.cart.index');
     }

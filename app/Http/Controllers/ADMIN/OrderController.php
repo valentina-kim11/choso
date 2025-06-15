@@ -4,7 +4,7 @@ namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Admin\Product;
+use App\Models\Product;
 use App\Models\{Order,OrderProduct,Wallet};
 
 class OrderController extends Controller
