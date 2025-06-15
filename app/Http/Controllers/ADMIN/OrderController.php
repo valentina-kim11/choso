@@ -5,10 +5,17 @@ namespace App\Http\Controllers\ADMIN;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\{Order,OrderProduct,Wallet};
+use App\Models\{Order,OrderProduct};
+use App\Services\WalletService;
 
 class OrderController extends Controller
 {
+    private WalletService $walletService;
+
+    public function __construct(WalletService $walletService)
+    {
+        $this->walletService = $walletService;
+    }
      /**
      * Display a listing of the resource.
      */
@@ -53,11 +60,11 @@ class OrderController extends Controller
         {
             $orderProduct = OrderProduct::where('order_id',$obj->id)->get();
             foreach ($orderProduct as $key => $value) {
-                Wallet::create([
-                    'user_id' => $value->vendor_id,
-                    'type' => "SALE",
-                    'credit' => $value->vendor_amount,
-                ]);
+                $this->walletService->credit(
+                    $value->vendor_id,
+                    $value->vendor_amount,
+                    'SALE'
+                );
 
                 $product = Product::find($value->product_id);
                 $product->sale_count = $product->sale_count + 1;
