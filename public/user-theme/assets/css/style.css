@@ -3797,7 +3797,7 @@ label.error, span.error {
 .tp_payproduct_list ul li h5 a span {
   height: 30px;
   width: 30px;
-  background-color: #00796B;
+  background-color: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
