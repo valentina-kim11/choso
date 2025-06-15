@@ -1089,7 +1089,7 @@ a.setting-tab i.fa-google{
 	height: auto;
 }
 .tp_catset_box label sup{
-        color: var(--color-danger);
+        color: var(--tp-error-color);
     top: -1px;
     font-weight: 700;
     left: 2px;
@@ -2807,7 +2807,7 @@ hr:not([size]) {
     position: absolute;
     top: 10px;
     right: 15px;
-    background-color: var(--color-danger);
+    background-color: var(--tp-error-color);
     border-radius: 5px;
     color: var(--tp-white-color);
     padding: 0px 8px;
@@ -2841,7 +2841,7 @@ hr:not([size]) {
 }
 .condition-toggle label .condition-toggle-switch {
     transition: background-color 0.3s cubic-bezier(0, 1, 0.5, 1);
-    background: var(--color-primary);
+    background: var(--theme-color);
 }
 .condition-toggle label .condition-toggle-switch {
     position: relative;
