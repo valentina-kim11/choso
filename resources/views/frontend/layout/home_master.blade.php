@@ -51,22 +51,17 @@
     <!--=== Required meta tags ===-->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-        :root {
-            --theme-color: #216fff;
-            --secondary-color: #566c8e;
-            --text-color: #53627a;
-            --background: #eff5fc;
-            --bgcolour: #f5f8fa;
-            --menu-heading-color: #002533;
-            --white-color: #ffffff;
-            --yellow-color: #fba948;
-            --blue-color: #1778f2;
-            --tp-body-bg-color: #f5f7fa;
-            --tp-text-color: rgba(0, 0, 0, 0.87);
-            --tp-border-color: rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    @if(isset($setting))
+        <style>
+            :root {
+                --color-primary: {{ $setting->primary_color ?? '#00796B' }};
+                --color-secondary: {{ $setting->secondary_color ?? '#585C66' }};
+                --color-warning: {{ $setting->warning_color ?? '#FFD54F' }};
+                --color-danger: {{ $setting->danger_color ?? '#EF5350' }};
+                --color-link: {{ $setting->link_color ?? '#4FC3F7' }};
+            }
+        </style>
+    @endif
     <!--=== custom css ===-->
     <link rel="stylesheet" href="{{ $ASSET_URL }}assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="{{ $ASSET_URL }}assets/css/swiper.min.css" />
