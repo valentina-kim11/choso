@@ -38,11 +38,11 @@
                                         @foreach ($data as $key => $item)
                                             <tr id="table_row_{{ $item->id }}">
                                                 <td>{{ ++$key }}</td>
-                                                <td>{{ $item->getUser->full_name }}</td>
-                                                <td>{{ $item->getUser->email }}</td>
+                                                <td>{{ $item->wallet->getUser->full_name }}</td>
+                                                <td>{{ $item->wallet->getUser->email }}</td>
                                                 <td>{{ $item->type }}</td>
-                                                <td>{{ number_format(@$item->credit, 0, ',', '.') }} Scoin</td>
-                                                <td>{{ number_format($item->debit, 0, ',', '.') }} Scoin</td>
+                                                <td>{{ $item->type == 'credit' ? number_format($item->amount, 0, ',', '.') : '-' }} Scoin</td>
+                                                <td>{{ $item->type == 'debit' ? number_format($item->amount, 0, ',', '.') : '-' }} Scoin</td>
                                                 <td>{{ $item->created_at }}</td>
                                                 <td>
                                                     <ul>
