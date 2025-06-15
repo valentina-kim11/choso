@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\BaseModel as Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Models\WalletTransaction;
 
 class Wallet extends Model
 {
     use HasUuids,HasFactory;
     public $fillable = [
-        'id',
         'user_id',
+        'balance',
         'type',
-        'credit',
-        'debit',
     ];
 
 
@@ -39,5 +38,10 @@ class Wallet extends Model
     public function getUser()
     {
         return $this->hasOne(User::class, 'id','user_id');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(WalletTransaction::class);
     }
 }
