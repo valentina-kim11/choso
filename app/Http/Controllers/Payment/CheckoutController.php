@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Frontend\ProductMeta;
-use App\Models\{Order,OrderProduct,Wallet,User};
+use App\Models\{Order,OrderProduct,User};
 use Cart,Redirect, Session,Str,Storage,Auth,Hash;
 use LaravelDaily\Invoices\Invoice;
 use Validator;
@@ -17,6 +17,7 @@ use App\Services\Payment\StripeService;
 use App\Services\Payment\RazorpayService;
 use App\Services\Payment\PawaPayService;
 use App\Services\Payment\FlutterwaveService;
+use App\Services\WalletService;
 
 class CheckoutController extends Controller
 {
@@ -25,19 +26,22 @@ class CheckoutController extends Controller
     private RazorpayService $razorpayService;
     private PawaPayService $pawaPayService;
     private FlutterwaveService $flutterwaveService;
+    private WalletService $walletService;
 
     public function __construct(
         PayPalService $paypalService,
         StripeService $stripeService,
         RazorpayService $razorpayService,
         PawaPayService $pawaPayService,
-        FlutterwaveService $flutterwaveService
+        FlutterwaveService $flutterwaveService,
+        WalletService $walletService
     ) {
         $this->paypalService = $paypalService;
         $this->stripeService = $stripeService;
         $this->razorpayService = $razorpayService;
         $this->pawaPayService = $pawaPayService;
         $this->flutterwaveService = $flutterwaveService;
+        $this->walletService = $walletService;
     }
     /**
      * Checkout index page
@@ -188,7 +192,7 @@ class CheckoutController extends Controller
 
         $setting = getSetting();
 
-        $OrderProductArr = $WalletArr = [];
+        $OrderProductArr = [];
 
         foreach (Cart::instance('default')->content() as $item) {
 
@@ -217,11 +221,11 @@ class CheckoutController extends Controller
 
             if(@$request['status'] == 1)
             {
-                Wallet::create([
-                    'user_id' => $item->model->user_id,
-                    'type' => "SALE",
-                    'credit' => $vendor_amount,
-                ]);
+                $this->walletService->credit(
+                    $item->model->user_id,
+                    $vendor_amount,
+                    'SALE'
+                );
             }
         }
 

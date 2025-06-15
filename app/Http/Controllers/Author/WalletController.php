@@ -5,10 +5,17 @@ namespace App\Http\Controllers\Author;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{Wallet};
+use App\Services\WalletService;
 use Validator;
 
 class WalletController extends Controller
 {
+    private WalletService $walletService;
+
+    public function __construct(WalletService $walletService)
+    {
+        $this->walletService = $walletService;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -47,7 +54,7 @@ class WalletController extends Controller
         $rules['amount'] = 'required|numeric';
         $userId =  auth()->id();
 
-        $total_amount = Wallet::where('user_id',$userId)->select(\DB::raw('SUM(credit - debit) as total'))->value('total');
+        $total_amount = $this->walletService->getBalance($userId);
         if($request->amount > $total_amount){
             return response()->json(['status' => false,'msg' => trans('msg.insufficient_balance') ], 400);
         }
@@ -60,11 +67,15 @@ class WalletController extends Controller
         if ($validator->fails())
             return response()->json(['status' => false, 'msg' => $validator->messages()->first()], 400);  
 
-            $obj = new Wallet();
-            $obj->user_id = $userId;
-            $obj->type = 'WITHDRAW';
-            $obj->debit = $request->amount;
-            $obj->save();
+        try {
+            $this->walletService->debit(
+                $userId,
+                $request->amount,
+                'WITHDRAW'
+            );
+        } catch (\Exception $e) {
+            return response()->json(['status' => false,'msg' => $e->getMessage() ], 400);
+        }
 
             return response()->json(['status' => true,'msg' => trans('msg.withdraw_req_suc')], 200);
     }
