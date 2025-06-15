@@ -132,6 +132,7 @@
                     <li><a href="{{ route('admin.wallet.index') }}">Ví người dùng</a></li>
                     <li><a href="{{ route('admin.wallet.withdraw-request') }}">Yêu cầu rút tiền</a></li>
                     <li><a href="{{ route('admin.wallet.withdraw-setting') }}">Cài đặt rút tiền</a></li>
+                    <li><a href="{{ route('admin.topups.index') }}">Nạp chờ duyệt</a></li>
                 </ul>
             </li>
         </ul>

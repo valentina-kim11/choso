@@ -148,6 +148,9 @@
                             <li>
                                 <a class="dropdown-item" href="{{ route('frontend.wallet', app()->getLocale()) }}">Ví Scoin</a>
                             </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('wallet.topup.create') }}">Nạp Scoin</a>
+                            </li>
                             @if (getSettingLongText()->is_checked_author_tab)
                             <li>
                                 <a class="dropdown-item"

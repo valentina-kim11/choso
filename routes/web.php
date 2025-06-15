@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ADMIN\{AdminViewController, AdminController,PageController,ProductCategoryController,ProductSubCategoryController,UsersController,VendorController,EmailIntegrationsController,ProductController,SettingController,TestimonialController,DiscountCouponController,OrderController,HomeContentController,MailController,LocaleFileController,WalletController as AdminWalletController};
-use App\Http\Controllers\Frontend\{CouponsController,HomeController,ProductController as FrontendProductController, HomeViewController,UserController,CartController,CommentController,SocialLoginController,WalletController};
+use App\Http\Controllers\ADMIN\{AdminViewController, AdminController,PageController,ProductCategoryController,ProductSubCategoryController,UsersController,VendorController,EmailIntegrationsController,ProductController,SettingController,TestimonialController,DiscountCouponController,OrderController,HomeContentController,MailController,LocaleFileController,WalletController as AdminWalletController,TopUpController as AdminTopUpController};
+use App\Http\Controllers\Frontend\{CouponsController,HomeController,ProductController as FrontendProductController, HomeViewController,UserController,CartController,CommentController,SocialLoginController,WalletController,TopUpController};
 use App\Http\Controllers\Payment\{CheckoutController,PaymentsController,PayPalPaymentController,FlutterwaveController,StripePaymentController,RazorpayController,PawaPayController};
 use Laravel\Socialite\Facades\Socialite;
 /*
@@ -212,6 +212,12 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('update-request', 'update_request')->name('admin.wallet.update_request');
             Route::get('withdraw-setting', 'withdraw_setting')->name('admin.wallet.withdraw-setting');
         });
+
+        /* Top-up routes */
+        Route::controller(AdminTopUpController::class)->prefix('topups')->group(function(){
+            Route::get('/', 'index')->name('admin.topups.index');
+            Route::post('{id}/approve', 'approve')->name('admin.topups.approve');
+        });
     });
 });
 Route::post('/upload_preview_image', [ProductController::class, 'storeMedia']);
@@ -396,6 +402,8 @@ include  __DIR__.'/vendor_web.php';
 
 Route::middleware('auth')->group(function () {
     Route::get('/wallet', [WalletController::class, 'index'])->name('wallet.index');
+    Route::get('/wallet/top-up', [TopUpController::class, 'create'])->name('wallet.topup.create');
+    Route::post('/wallet/top-up', [TopUpController::class, 'store'])->name('wallet.topup.store');
 });
 
 Route::get('/cache', function () {

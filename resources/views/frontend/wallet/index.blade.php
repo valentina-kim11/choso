@@ -11,6 +11,7 @@
             <div class="col-12">
                 <h2>Ví Scoin</h2>
                 <p>Số dư hiện tại: <strong>{{ number_format($wallet->balance, 0, ',', '.') }} Scoin</strong></p>
+                <a href="{{ route('wallet.topup.create') }}" class="tp_btn mt-2">Nạp Scoin</a>
             </div>
         </div>
         <div class="row">
