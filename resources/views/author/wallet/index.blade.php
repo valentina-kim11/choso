@@ -144,11 +144,18 @@
 
                             <div class="form-group">
                                 <label class="ap_label">Tài khoản ngân hàng</label>
-                                <select name="bank_account_id" class="form-control">
-                                    @foreach($accounts as $acc)
-                                        <option value="{{ $acc->id }}">{{ $acc->bank_name }} - {{ $acc->account_number }}</option>
-                                    @endforeach
-                                </select>
+                                @if($accounts->isEmpty())
+                                    <p class="text-muted">
+                                        Chưa có tài khoản ngân hàng.
+                                        <a href="{{ route('vendor.bank_accounts.index') }}">Thêm mới</a>
+                                    </p>
+                                @else
+                                    <select name="bank_account_id" class="form-control">
+                                        @foreach($accounts as $acc)
+                                            <option value="{{ $acc->id }}">{{ $acc->bank_name }} - {{ $acc->account_number }}</option>
+                                        @endforeach
+                                    </select>
+                                @endif
                             </div>
                             <div class="form-group mt-2">
                                 <label class="ap_label">Nhập số tiền </label>
