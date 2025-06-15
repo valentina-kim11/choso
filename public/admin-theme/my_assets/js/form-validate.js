@@ -388,9 +388,6 @@ $(document).ready(function () {
             },
             bank_account_number: {
                 required: true,
-            },
-            ifsc_code: {
-                required: true,
             }
         },
         messages: {
@@ -402,9 +399,6 @@ $(document).ready(function () {
             },
             bank_account_number: {
                 required: 'Bank Account Number is required.',
-            },
-            ifsc_code: {
-                required: 'IFSC Code is required.',
             }
         },
         submitHandler: function(form) {

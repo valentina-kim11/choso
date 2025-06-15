@@ -167,14 +167,6 @@
                                                                     value="{{ @$additional_data->bank_account_number }}">
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 col-lg-6">
-                                                            <div class="tp_form_wrapper form-group">
-                                                                <label for="formFirst" class="mb-2">Mã IFSC</label>
-                                                                <input id="formFirst" type="text" class="form-control"
-                                                                    placeholder="Nhập mã IFSC" name="ifsc_code"
-                                                                    value="{{ @$additional_data->ifsc_code }}">
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                     <div class="col-md-12 mt-4">
                                                         <button type="submit" class="btn btn-primary"

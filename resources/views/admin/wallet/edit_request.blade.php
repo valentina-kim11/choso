@@ -63,10 +63,6 @@
                                     <div class="product_info product_name">{{ optional($bank_account)->account_number ?? @$user_details->bank_account_number }}</div>
                                 </div>
 
-                                <div class="th_product_detail">
-                                    <div class="theme_label">Mã IFSC : </div>
-                                    <div class="product_info">{{ optional($bank_account)->method ?? @$user_details->ifsc_code }}</div>
-                                </div>
 
 
                             </div>
