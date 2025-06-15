@@ -9,6 +9,9 @@
     <div class="tp_main_content_wrappo">
         <div class="tp_tab_wrappo">
             <h4 class="tp_heading">Danh sách nạp chờ duyệt</h4>
+            @if(session('success'))
+                <div class="alert alert-success mt-2">{{ session('success') }}</div>
+            @endif
         </div>
         <div class="tp_tab_content">
             <div class="row">
