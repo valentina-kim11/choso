@@ -31,6 +31,15 @@
         }
     </style>
     @endif
+    <style>
+        :root {
+            --theme-color: {{ @$setting->primary_color ?? '#216fff' }};
+            --secondary-color: {{ @$setting->secondary_color ?? '#566c8e' }};
+            --text-color: {{ @$setting->text_color ?? '#53627a' }};
+            --background: {{ @$setting->body_color ?? '#eff5fc' }};
+            --bgcolour: {{ @$setting->body_color ?? '#f5f8fa' }};
+        }
+    </style>
     <!-------- Style-sheet Start -------->
     <link rel="stylesheet" type="text/css" href="{{ $ASSET_URL }}css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="{{ $ASSET_URL }}css/font-awesome.min.css" />

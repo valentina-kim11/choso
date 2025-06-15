@@ -32,7 +32,16 @@
             }
         </style>
         @endif
-	 <!--=== custom css ===-->
+        <style>
+            :root {
+                --theme-color: {{ @$setting->primary_color ?? '#216fff' }};
+                --secondary-color: {{ @$setting->secondary_color ?? '#566c8e' }};
+                --text-color: {{ @$setting->text_color ?? '#53627a' }};
+                --background: {{ @$setting->body_color ?? '#eff5fc' }};
+                --bgcolour: {{ @$setting->body_color ?? '#f5f8fa' }};
+            }
+        </style>
+         <!--=== custom css ===-->
 	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 	 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&amp;display=swap"
         rel="stylesheet">
