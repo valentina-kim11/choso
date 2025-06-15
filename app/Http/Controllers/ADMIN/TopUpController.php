@@ -54,6 +54,6 @@ class TopUpController extends Controller
         });
 
         return redirect()->route('admin.topups.index')
-            ->with('success', 'Top-up approved successfully');
+            ->with('success', 'Top-up approved and Scoin added to user wallet');
     }
 }
