@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Frontend\{Product,ProductMeta};
+use App\Models\Product;
+use App\Models\Frontend\ProductMeta;
 use App\Models\{Order,OrderProduct,Wallet,User};
 use Cart,Redirect, Session,Str,Storage,Auth,Hash;
 use LaravelDaily\Invoices\Invoice;
