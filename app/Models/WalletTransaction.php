@@ -23,7 +23,6 @@ class WalletTransaction extends Model
      * @var array<int, string>
      */
     public $fillable = [
-        'id',
         'wallet_id',
         'amount',
         'type',
