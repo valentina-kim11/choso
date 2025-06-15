@@ -5,8 +5,8 @@ namespace App\Http\Controllers\ADMIN;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\{Wallet,WalletTransaction,Setting,UserAdditionalInfo,WalletTransactionBankAccount,UserBankAccount,AdminActionLog};
-use App\Services\WalletService;
+use App\Models\{Wallet,WalletTransaction,Setting,UserAdditionalInfo,WalletTransactionBankAccount,UserBankAccount};
+use App\Services\{WalletService, AdminActionLogService};
 use Illuminate\Support\Facades\DB;
 
 
@@ -122,23 +122,21 @@ class WalletController extends Controller
                     'WITHDRAW_REJECT',
                     'Withdraw rejected'
                 );
-                AdminActionLog::create([
-                    'admin_id' => auth()->id(),
-                    'action' => 'withdraw_reject',
-                    'target_type' => 'wallet_transaction',
-                    'target_id' => $data->id,
-                    'description' => $request->note,
-                ]);
+                AdminActionLogService::log(
+                    'withdraw_reject',
+                    'wallet_transaction',
+                    $data->id,
+                    ['note' => $request->note]
+                );
             }
 
             if ((int) $request->status === 1 && $data->status != 1) {
-                AdminActionLog::create([
-                    'admin_id' => auth()->id(),
-                    'action' => 'withdraw_approve',
-                    'target_type' => 'wallet_transaction',
-                    'target_id' => $data->id,
-                    'description' => $request->note,
-                ]);
+                AdminActionLogService::log(
+                    'withdraw_approve',
+                    'wallet_transaction',
+                    $data->id,
+                    ['note' => $request->note]
+                );
             }
 
             $data->status = $request->status;

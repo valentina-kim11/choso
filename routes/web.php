@@ -219,6 +219,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::controller(AdminTopUpController::class)->prefix('topups')->group(function(){
             Route::get('/', 'index')->name('admin.topups.index');
             Route::post('{id}/approve', 'approve')->name('admin.topups.approve');
+            Route::post('{id}/reject', 'reject')->name('admin.topups.reject');
         });
     });
 });
