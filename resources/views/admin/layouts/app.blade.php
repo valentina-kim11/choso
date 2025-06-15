@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="{{ session('theme', 'light') === 'dark' ? 'dark' : '' }}">
 <head>
     @php
         $ASSET_URL = asset('admin-theme/assets') . '/';
