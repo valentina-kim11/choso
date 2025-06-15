@@ -4,7 +4,8 @@ namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Admin\{DiscountCoupon,Product};
+use App\Models\Admin\DiscountCoupon;
+use App\Models\Product;
 use Validator;
 use Illuminate\Validation\Rule;
 class DiscountCouponController extends Controller
