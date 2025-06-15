@@ -10,14 +10,26 @@ class WalletTransaction extends Model
 {
     use HasFactory, HasUuids;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'wallet_transactions';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     public $fillable = [
         'id',
         'wallet_id',
+        'amount',
         'type',
-        'credit',
-        'debit',
+        'source',
+        'description',
         'status',
-        'note',
     ];
 
     public function wallet()
