@@ -23,15 +23,15 @@
                                 </div>
                                 <div class="th_product_detail">
                                     <div class="theme_label">ID người dùng :</div>
-                                    <div class="product_info product_name">{{ @$data->user_id }}</div>
+                                    <div class="product_info product_name">{{ @$data->wallet->user_id }}</div>
                                 </div>
                                 <div class="th_product_detail">
                                     <div class="theme_label">Họ và tên :</div>
-                                    <div class="product_info product_name">{{ @$data->getUser->full_name }}</div>
+                                    <div class="product_info product_name">{{ @$data->wallet->getUser->full_name }}</div>
                                 </div>
                                 <div class="th_product_detail">
                                     <div class="theme_label">Email :</div>
-                                    <div class="product_info product_name">{{ @$data->getUser->email }}</div>
+                                    <div class="product_info product_name">{{ @$data->wallet->getUser->email }}</div>
                                 </div>
 
                                 <div class="th_product_detail">
@@ -39,8 +39,17 @@
                                     <div class="product_info product_name">{{ $data->type }}</div>
                                 </div>
                                 <div class="th_product_detail">
+
                                     <div class="theme_label">Số tiền :</div>
                                     <div class="product_info product_name">{{ number_format($data->amount ?? 0, 0, ',', '.') }} Scoin</div>
+
+                                    <div class="theme_label">Tiền cộng :</div>
+                                    <div class="product_info product_name">{{ $data->type == 'credit' ? number_format($data->amount, 0, ',', '.') : '-' }} Scoin</div>
+                                </div>
+                                <div class="th_product_detail">
+                                    <div class="theme_label">Tiền trừ :</div>
+                                    <div class="product_info product_name">{{ $data->type == 'debit' ? number_format($data->amount, 0, ',', '.') : '-' }} Scoin</div>
+
                                 </div>
                         
                                 <div class="th_product_detail">
@@ -55,7 +64,7 @@
                                     </div>
                                     <div class="th_product_detail">
                                         <div class="theme_label">Ghi chú :</div>
-                                        <div class="product_info product_name">{{ @$data->note ?? '-'}}
+                                        <div class="product_info product_name">{{ @$data->description ?? '-'}}
                                         </div>
                                     </div>
 

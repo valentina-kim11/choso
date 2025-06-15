@@ -37,11 +37,16 @@
                                         @foreach ($data as $key => $item)
                                             <tr id="table_row_{{ $item->id }}">
                                                 <td>{{ ++$key }}</td>
+
                                                 <td>{{ $item->getUser->full_name }}</td>
                                                 <td>{{ $item->getUser->email }}</td>
+
+                                                <td>{{ $item->wallet->getUser->full_name }}</td>
+                                                <td>{{ $item->wallet->getUser->email }}</td>
+
                                                 <td>{{ number_format($item->amount, 0, ',', '.') }} Scoin</td>
                                                 <td>{{ $item->created_at }}</td>
-                                                <td>{{ $item->type == 'WITHDRAW' ? $item->status_str : '-' }}</td>
+                                                <td>{{ $item->status_str ?? '-' }}</td>
                                                 <td>
                                                     <ul>
                                                         <li><a href="{{ route('admin.wallet.edit-request', $item->id) }}"
