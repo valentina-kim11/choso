@@ -39,7 +39,7 @@
                                                 <td>{{ ++$key }}</td>
                                                 <td>{{ $item->getUser->full_name }}</td>
                                                 <td>{{ $item->getUser->email }}</td>
-                                                <td>{{ number_format($item->debit, 0, ',', '.') }} Scoin</td>
+                                                <td>{{ number_format($item->amount, 0, ',', '.') }} Scoin</td>
                                                 <td>{{ $item->created_at }}</td>
                                                 <td>{{ $item->type == 'WITHDRAW' ? $item->status_str : '-' }}</td>
                                                 <td>

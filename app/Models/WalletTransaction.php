@@ -23,6 +23,7 @@ class WalletTransaction extends Model
      * @var array<int, string>
      */
     public $fillable = [
+        'id',
         'wallet_id',
         'amount',
         'type',
@@ -34,5 +35,14 @@ class WalletTransaction extends Model
     public function wallet()
     {
         return $this->belongsTo(Wallet::class);
+    }
+
+    public function getStatusStrAttribute()
+    {
+        return match ($this->status) {
+            1 => 'Withdrawal completed!',
+            2 => 'Reject',
+            default => 'Pending',
+        };
     }
 }

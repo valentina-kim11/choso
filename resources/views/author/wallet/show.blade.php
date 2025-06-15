@@ -24,13 +24,8 @@
                                     <div class="product_info product_name">{{ $data->type }}</div>
                                 </div>
                                 <div class="th_product_detail">
-                                    <div class="theme_label">Ghi có :</div>
-                                    <div class="product_info product_name">{{ number_format($data->credit ?? 0, 0, ',', '.') }} Scoin
-                                    </div>
-                                </div>
-                                <div class="th_product_detail">
-                                    <div class="theme_label">Ghi nợ :</div>
-                                    <div class="product_info product_name">{{ number_format($data->debit ?? 0, 0, ',', '.') }} Scoin
+                                    <div class="theme_label">Số tiền :</div>
+                                    <div class="product_info product_name">{{ number_format($data->amount ?? 0, 0, ',', '.') }} Scoin
                                     </div>
                                 </div>
                         

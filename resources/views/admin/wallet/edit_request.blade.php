@@ -37,7 +37,7 @@
 
                                 <div class="th_product_detail">
                                     <div class="theme_label">Số tiền rút :</div>
-                                    <div class="product_info product_name">{{ number_format(@$data->debit, 0, ',', '.') }} Scoin</div>
+                                    <div class="product_info product_name">{{ number_format(@$data->amount, 0, ',', '.') }} Scoin</div>
                                 </div>
 
                                 <div class="th_product_detail">

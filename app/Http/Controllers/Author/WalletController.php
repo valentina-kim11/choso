@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Author;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Wallet};
+use App\Models\{Wallet, WalletTransaction};
 use App\Services\WalletService;
 use Validator;
 
@@ -22,13 +22,21 @@ class WalletController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $Obj = new Wallet();
-        $data['data'] =  $Obj->filter()->where('user_id',$user->id)->orderBy('id','DESC')->paginate(10);
+        $wallet = Wallet::where('user_id', $user->id)->first();
 
-        $data['total_amount'] = $Obj->where('user_id',$user->id)->select(\DB::raw('SUM(credit - debit) as total'))->value('total');
-        $data['withdraw_amount'] = $Obj->where(['user_id'=>$user->id,'status'=>1])->sum('debit');
-    
-        $data['searchable'] =  Wallet::$searchable;
+        $transactions = WalletTransaction::query();
+        if ($wallet) {
+            $transactions->where('wallet_id', $wallet->id);
+        }
+
+        $data['data'] = $transactions->filter()->orderBy('id', 'DESC')->paginate(10);
+
+        $data['total_amount'] = $wallet->balance ?? 0;
+        $data['withdraw_amount'] = WalletTransaction::where('wallet_id', $wallet->id ?? '')
+            ->where('type', 'debit')
+            ->where('status', 1)
+            ->sum('amount');
+
         return view('author.wallet.index',$data);
     }
 
@@ -37,7 +45,7 @@ class WalletController extends Controller
      */
     public function show(string $id)
     {
-        $data = Wallet::find($id);
+        $data = WalletTransaction::find($id);
         if(empty($data)){
             return redirect()->route('vendor.wallet.index');
         }
