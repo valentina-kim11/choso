@@ -68,7 +68,7 @@ class WalletController extends Controller
      * Store a withdraw request.
      */
 
-    public function store(request $request){
+    public function store(Request $request){
         $rules = [
             'amount' => 'required|numeric',
             'bank_account_id' => 'required|exists:user_bank_accounts,id'
