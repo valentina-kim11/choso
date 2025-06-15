@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="{{ session('theme', 'light') === 'dark' ? 'dark' : '' }}">
+<html lang="en">
 @php
 	$mUrl = Request::url();
 	$setting = getsetting();
@@ -21,7 +21,22 @@
     <link href="{{ Storage::url(@$setting->favicon_img) }}" rel="apple-touch-icon">
 	<link rel="canonical" href="{{ url()->current() }}" />
         <link rel="alternate" hreflang="x-default" href="{{ url()->current() }}" />
-        <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
+        <style>
+            :root {
+                --theme-color: #216fff;
+                --secondary-color: #566c8e;
+                --text-color: #53627a;
+                --background: #eff5fc;
+                --bgcolour: #f5f8fa;
+                --menu-heading-color: #002533;
+                --white-color: #ffffff;
+                --yellow-color: #fba948;
+                --blue-color: #1778f2;
+                --tp-body-bg-color: #f5f7fa;
+                --tp-text-color: rgba(0, 0, 0, 0.87);
+                --tp-border-color: rgba(0, 0, 0, 0.1);
+            }
+        </style>
 	 <!--=== custom css ===-->
 	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 	 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&amp;display=swap"
