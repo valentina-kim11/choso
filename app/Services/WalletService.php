@@ -48,9 +48,16 @@ class WalletService
     public function debit(int $userId, float $amount, string $source, ?string $desc = null)
     {
         return DB::transaction(function () use ($userId, $amount, $source, $desc) {
-            $wallet = Wallet::where('user_id', $userId)->first();
+            $wallet = Wallet::firstOrCreate(
+                ['user_id' => $userId],
+                [
+                    'id' => Str::uuid()->toString(),
+                    'balance' => 0,
+                    'type' => 'DEFAULT',
+                ]
+            );
 
-            $balance = $wallet?->balance ?? 0;
+            $balance = $wallet->balance;
             if ($balance < $amount) {
                 throw new \Exception('Insufficient balance');
             }
