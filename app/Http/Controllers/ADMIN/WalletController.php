@@ -123,18 +123,18 @@ class WalletController extends Controller
                     'Withdraw rejected'
                 );
                 AdminActionLogService::log(
+                    auth()->id(),
                     'withdraw_reject',
-                    'wallet_transaction',
-                    $data->id,
+                    $data,
                     ['note' => $request->note]
                 );
             }
 
             if ((int) $request->status === 1 && $data->status != 1) {
                 AdminActionLogService::log(
+                    auth()->id(),
                     'withdraw_approve',
-                    'wallet_transaction',
-                    $data->id,
+                    $data,
                     ['note' => $request->note]
                 );
             }

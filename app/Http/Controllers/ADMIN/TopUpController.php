@@ -64,9 +64,9 @@ class TopUpController extends Controller
         $this->walletService->approveTopUp($id, 'Admin approved top-up');
 
         AdminActionLogService::log(
+            auth()->id(),
             'topup_approve',
-            'wallet_transaction',
-            $id,
+            $transaction,
             ['amount' => $transaction->amount]
         );
 
@@ -90,9 +90,9 @@ class TopUpController extends Controller
         $transaction->save();
 
         AdminActionLogService::log(
+            auth()->id(),
             'topup_reject',
-            'wallet_transaction',
-            $id,
+            $transaction,
             ['note' => $request->note]
         );
 
