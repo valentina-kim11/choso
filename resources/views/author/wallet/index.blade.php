@@ -69,16 +69,16 @@
                                             <tr id="table_row_{{ $item->id }}">
                                                 <td>{{ ++$key }}</td>
                                                 <td>
-                                                    @if($item->type == "WITHDRAW")  
-                                                    <span class="text-danger"> {{$item->type}} <span>
+                                                    @if($item->type == 'debit')
+                                                    <span class="text-danger"> {{ strtoupper($item->type) }} <span>
                                                     @else
-                                                    <span class="text-success"> {{$item->type}} <span>
+                                                    <span class="text-success"> {{ strtoupper($item->type) }} <span>
                                                     @endif
                                                 </td>
-                                                <td>{{ number_format(@$item->credit, 0, ',', '.') }} Scoin</td>
-                                                <td>{{ number_format($item->debit, 0, ',', '.') }} Scoin</td>
+                                                <td>{{ $item->type == 'credit' ? number_format($item->amount, 0, ',', '.') : '-' }} Scoin</td>
+                                                <td>{{ $item->type == 'debit' ? number_format($item->amount, 0, ',', '.') : '-' }} Scoin</td>
                                                 <td>{{ $item->created_at }}</td>
-                                                <td>{{ ($item->type == "WITHDRAW") ? $item->status_str : 'Đã cộng tiền'}}</td>
+                                                <td>{{ $item->type == 'debit' ? $item->status_str : 'Đã cộng tiền'}}</td>
                                                 <td>
                                                     <ul>
                                                         <li><a href="{{ route('vendor.wallet.show', $item->id) }}"
