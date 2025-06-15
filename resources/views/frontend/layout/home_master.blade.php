@@ -62,6 +62,15 @@
             }
         </style>
     @endif
+    <style>
+        :root {
+            --theme-color: {{ @$setting->primary_color ?? '#216fff' }};
+            --secondary-color: {{ @$setting->secondary_color ?? '#566c8e' }};
+            --text-color: {{ @$setting->text_color ?? '#53627a' }};
+            --background: {{ @$setting->body_color ?? '#eff5fc' }};
+            --bgcolour: {{ @$setting->body_color ?? '#f5f8fa' }};
+        }
+    </style>
     <!--=== custom css ===-->
     <link rel="stylesheet" href="{{ $ASSET_URL }}assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="{{ $ASSET_URL }}assets/css/swiper.min.css" />
