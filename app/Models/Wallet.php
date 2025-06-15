@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 class Wallet extends Model
 {
     use HasUuids,HasFactory;
+    protected $table = 'wallet_transactions';
     public $fillable = [
         'id',
         'user_id',
