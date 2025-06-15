@@ -145,6 +145,9 @@
                                     href="{{ route('frontend.profile', [app()->getLocale(), 'tab' => 'my-downloads']) }}">@lang('master.header.My_Downloads')
                                 </a>
                             </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('frontend.wallet', app()->getLocale()) }}">Ví Scoin</a>
+                            </li>
                             @if (getSettingLongText()->is_checked_author_tab)
                             <li>
                                 <a class="dropdown-item"
