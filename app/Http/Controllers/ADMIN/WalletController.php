@@ -15,7 +15,7 @@ class WalletController extends Controller
     {
         $Obj = new Wallet();
         $data['data'] =  $Obj->filter()->orderBy('id','DESC')->paginate(10);
-        $data['total_amount'] = $Obj->sum(\DB::raw('credit', '-', 'debit'));
+        $data['total_amount'] = $Obj->sum('balance');
         $data['searchable'] =  Wallet::$searchable;
         return view('admin.wallet.index',$data);
     }
