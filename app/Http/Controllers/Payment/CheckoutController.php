@@ -11,9 +11,33 @@ use LaravelDaily\Invoices\Invoice;
 use Validator;
 use LaravelDaily\Invoices\Classes\{Buyer,InvoiceItem};
 use App\Http\Controllers\ADMIN\MailController;
+use App\Services\Payment\PayPalService;
+use App\Services\Payment\StripeService;
+use App\Services\Payment\RazorpayService;
+use App\Services\Payment\PawaPayService;
+use App\Services\Payment\FlutterwaveService;
 
 class CheckoutController extends Controller
 {
+    private PayPalService $paypalService;
+    private StripeService $stripeService;
+    private RazorpayService $razorpayService;
+    private PawaPayService $pawaPayService;
+    private FlutterwaveService $flutterwaveService;
+
+    public function __construct(
+        PayPalService $paypalService,
+        StripeService $stripeService,
+        RazorpayService $razorpayService,
+        PawaPayService $pawaPayService,
+        FlutterwaveService $flutterwaveService
+    ) {
+        $this->paypalService = $paypalService;
+        $this->stripeService = $stripeService;
+        $this->razorpayService = $razorpayService;
+        $this->pawaPayService = $pawaPayService;
+        $this->flutterwaveService = $flutterwaveService;
+    }
     /**
      * Checkout index page
      */
@@ -86,20 +110,15 @@ class CheckoutController extends Controller
             }
             switch ($request->gateway){
                 case "paypal":
-                   return (new PayPalPaymentController())->handlePayment($data);
-                break;
+                    return $this->paypalService->handlePayment($data);
                 case "stripe":
-                    return (new StripePaymentController())->handlePayment($data);
-                break;
+                    return $this->stripeService->handlePayment($data);
                 case "razorpay":
-                    return (new RazorpayController())->razorpay($data);
-                break;
+                    return $this->razorpayService->view($data);
                 case "pawapay":
-                   return (new PawaPayController())->handlePayment($data);
-                break;
+                    return $this->pawaPayService->handlePayment($data);
                 case "flutterWave":
-                   return (new FlutterwaveController())->handlePayment($data);
-                break;
+                    return $this->flutterwaveService->handlePayment($data);
 
                 case "free":
                     if($subtotal > 0){
