@@ -22,22 +22,17 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+        @if(isset($setting))
         <style>
-        :root {
-            --theme-color: #216fff;
-            --secondary-color: #566c8e;
-            --text-color: #53627a;
-            --background: #eff5fc;
-            --bgcolour: #f5f8fa;
-            --menu-heading-color: #002533;
-            --white-color: #ffffff;
-            --yellow-color: #fba948;
-            --blue-color: #1778f2;
-            --tp-body-bg-color: #f5f7fa;
-            --tp-text-color: rgba(0, 0, 0, 0.87);
-            --tp-border-color: rgba(0, 0, 0, 0.1);
-        }
+            :root {
+                --color-primary: {{ $setting->primary_color ?? '#00796B' }};
+                --color-secondary: {{ $setting->secondary_color ?? '#585C66' }};
+                --color-warning: {{ $setting->warning_color ?? '#FFD54F' }};
+                --color-danger: {{ $setting->danger_color ?? '#EF5350' }};
+                --color-link: {{ $setting->link_color ?? '#4FC3F7' }};
+            }
         </style>
+        @endif
 
     <!--=== custom css ===-->
     <link rel="stylesheet" href="{{ $ASSET_URL }}assets/css/bootstrap.min.css" />
