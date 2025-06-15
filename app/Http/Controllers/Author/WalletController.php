@@ -27,43 +27,16 @@ class WalletController extends Controller
     {
         $user = auth()->user();
 
-        $wallet = Wallet::where('user_id', $user->id)->first();
+        [$wallet, $transactions] = $this->walletService->getWalletWithTransactions($user->id);
 
-        $transactions = WalletTransaction::query();
-        if ($wallet) {
-            $transactions->where('wallet_id', $wallet->id);
-        }
+        $data['data'] = $transactions;
+        $data['total_amount'] = $wallet->balance;
 
-        $data['data'] = $transactions->filter()->orderBy('id', 'DESC')->paginate(10);
-
-        $data['total_amount'] = $wallet->balance ?? 0;
-        $data['withdraw_amount'] = WalletTransaction::where('wallet_id', $wallet->id ?? '')
+        $data['withdraw_amount'] = $wallet->transactions()
             ->where('type', 'debit')
+            ->where('source', 'WITHDRAW')
             ->where('status', 1)
             ->sum('amount');
-
-
-        $Obj = new WalletTransaction();
-        $data['data'] =  $Obj->with('wallet')->filter()->whereHas('wallet', function($q) use ($user) {
-            $q->where('user_id', $user->id);
-        })->orderBy('id','DESC')->paginate(10);
-
-        $data['total_amount'] = $this->walletService->getBalance($user->id);
-
-
-        $wallet = Wallet::where('user_id',$user->id)->first();
-        $data['withdraw_amount'] = 0;
-        if ($wallet) {
-            $data['withdraw_amount'] = $wallet->transactions()
-                ->where('type', 'debit')
-                ->where('source', 'WITHDRAW')
-                ->where('status', 1)
-                ->sum('amount');
-        }
-
-        $data['withdraw_amount'] = WalletTransaction::whereHas('wallet', function($q) use ($user) {
-            $q->where('user_id', $user->id);
-        })->where('type', 'debit')->sum('amount');
 
     
         $data['searchable'] =  Wallet::$searchable;
