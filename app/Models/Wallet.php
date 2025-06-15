@@ -10,11 +10,16 @@ use App\Models\WalletTransaction;
 class Wallet extends Model
 {
     use HasUuids,HasFactory;
-    protected $table = 'wallet_transactions';
+    protected $table = 'wallets';
     public $fillable = [
+        'id',
         'user_id',
         'balance',
         'type',
+    ];
+
+    protected $casts = [
+        'balance' => 'decimal:2',
     ];
 
 
@@ -22,8 +27,6 @@ class Wallet extends Model
         'id'=> 'id',
         'user_id'=> 'user_id',
         'type'=> 'type',
-        'credit'=> 'credit',
-        'debit'=> 'debit',
     ];
 
     public function getStatusStrAttribute()
