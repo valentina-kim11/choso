@@ -80,7 +80,19 @@
                                                 <td>{{ $item->type == 'debit' ? number_format($item->amount, 0, ',', '.') . ' Scoin' : '-' }}</td>
 
                                                 <td>{{ $item->created_at }}</td>
-                                                <td>{{ $item->type == 'debit' ? $item->status_str : 'Đã cộng tiền'}}</td>
+                                                <td>
+                                                    @if($item->type == 'debit')
+                                                        @if($item->status == 1)
+                                                            <span class="badge bg-success">Đã thanh toán</span>
+                                                        @elseif($item->status == 2)
+                                                            <span class="badge bg-danger">Từ chối</span>
+                                                        @else
+                                                            <span class="badge bg-warning text-dark">Chờ xử lý</span>
+                                                        @endif
+                                                    @else
+                                                        <span class="badge bg-success">Đã cộng tiền</span>
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <ul>
                                                         <li><a href="{{ route('vendor.wallet.show', $item->id) }}"
@@ -131,6 +143,14 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="ap_label">Tài khoản ngân hàng</label>
+                                <select name="bank_account_id" class="form-control">
+                                    @foreach($accounts as $acc)
+                                        <option value="{{ $acc->id }}">{{ $acc->bank_name }} - {{ $acc->account_number }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mt-2">
                                 <label class="ap_label">Nhập số tiền </label>
                                 <input type="text" name="amount"
                                     placeholder="Nhập số tiền. Tối thiểu {{ number_format($min_withdraw, 0, ',', '.') }} Scoin" class="form-control">

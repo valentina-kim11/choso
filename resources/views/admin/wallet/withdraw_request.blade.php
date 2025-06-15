@@ -43,7 +43,15 @@
 
                                                 <td>{{ number_format($item->amount, 0, ',', '.') }} Scoin</td>
                                                 <td>{{ $item->created_at }}</td>
-                                                <td>{{ $item->status_str ?? '-' }}</td>
+                                                <td>
+                                                    @if($item->status == 1)
+                                                        <span class="badge bg-success">Đã thanh toán</span>
+                                                    @elseif($item->status == 2)
+                                                        <span class="badge bg-danger">Từ chối</span>
+                                                    @else
+                                                        <span class="badge bg-warning text-dark">Chờ xử lý</span>
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <ul>
                                                         <li><a href="{{ route('admin.wallet.edit-request', $item->id) }}"

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
-use App\Models\WalletTransaction;
+use App\Models\{WalletTransaction, AdminActionLog};
 use App\Services\WalletService;
 use Illuminate\Http\{RedirectResponse, Request};
 
@@ -61,6 +61,13 @@ class TopUpController extends Controller
     public function approve(string $id): RedirectResponse
     {
         $this->walletService->approveTopUp($id, 'Admin approved top-up');
+        AdminActionLog::create([
+            'admin_id' => auth()->id(),
+            'action' => 'topup_approve',
+            'target_type' => 'wallet_transaction',
+            'target_id' => $id,
+            'description' => 'Top up approved',
+        ]);
 
         return redirect()->route('admin.topups.index')
             ->with('success', 'Top-up approved and Scoin added to user wallet');
