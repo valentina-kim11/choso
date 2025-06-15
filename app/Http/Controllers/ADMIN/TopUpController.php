@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\WalletTransaction;
 use App\Services\WalletService;
 use Illuminate\Http\{RedirectResponse, Request};
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 
 class TopUpController extends Controller
 {
@@ -96,22 +94,7 @@ class TopUpController extends Controller
      */
     public function approve(string $id): RedirectResponse
     {
-        $transaction = WalletTransaction::with('wallet.getUser')
-            ->where('source', 'topup')
-            ->where('status', 0)
-            ->findOrFail($id);
-
-        DB::transaction(function () use ($transaction) {
-            $this->walletService->credit(
-                $transaction->wallet->user_id,
-                $transaction->amount,
-                'topup',
-                'Admin approved top-up'
-            );
-
-            $transaction->status = 1;
-            $transaction->save();
-        });
+        $this->walletService->approveTopUp($id, 'Admin approved top-up');
 
         return redirect()->route('admin.topups.index')
             ->with('success', 'Top-up approved and Scoin added to user wallet');

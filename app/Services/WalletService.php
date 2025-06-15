@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Wallet;
+use App\Models\{Wallet, WalletTransaction};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -104,5 +104,28 @@ class WalletService
         $transactions = $wallet->transactions()->orderByDesc('created_at')->paginate($perPage);
 
         return [$wallet, $transactions];
+    }
+
+    /**
+     * Approve a pending top-up transaction by updating the same row and wallet balance.
+     */
+    public function approveTopUp(string $transactionId, ?string $desc = null): float
+    {
+        return DB::transaction(function () use ($transactionId, $desc) {
+            $transaction = WalletTransaction::with('wallet')
+                ->where('source', 'topup')
+                ->where('status', 0)
+                ->findOrFail($transactionId);
+
+            $transaction->wallet->increment('balance', $transaction->amount);
+
+            $transaction->status = 1;
+            if ($desc !== null) {
+                $transaction->description = $desc;
+            }
+            $transaction->save();
+
+            return $transaction->wallet->fresh()->balance;
+        });
     }
 }
