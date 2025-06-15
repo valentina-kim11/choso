@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\BaseModel as Model;
-use App\Models\Frontend\{Product};
+use App\Models\Product;
 class OrderProduct extends Model
 {
     use HasFactory;
