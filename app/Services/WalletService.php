@@ -76,6 +76,7 @@ class WalletService
                 'amount' => $amount,
                 'type' => 'debit',
                 'source' => $source,
+                'status' => 0,
                 'description' => $desc,
                 'created_at' => now(),
                 'updated_at' => now(),

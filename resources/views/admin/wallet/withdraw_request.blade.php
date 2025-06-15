@@ -38,9 +38,6 @@
                                             <tr id="table_row_{{ $item->id }}">
                                                 <td>{{ ++$key }}</td>
 
-                                                <td>{{ $item->getUser->full_name }}</td>
-                                                <td>{{ $item->getUser->email }}</td>
-
                                                 <td>{{ $item->wallet->getUser->full_name }}</td>
                                                 <td>{{ $item->wallet->getUser->email }}</td>
 

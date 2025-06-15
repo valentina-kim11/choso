@@ -49,13 +49,13 @@ class WalletController extends Controller
      */
     public function withdraw_request()
     {
-        $Obj = new WalletTransaction();
-
-        $data['data'] =  $Obj->filter()->where('source','WITHDRAW')->orderBy('id','DESC')->paginate(10);
-        $data['searchable'] =  [];
-
-        $data['data'] =  $Obj->with('wallet.getUser')->filter()->where('type','debit')->orderBy('id','DESC')->paginate(10);
-        $data['searchable'] =  Wallet::$searchable;
+        $data['data'] = WalletTransaction::with('wallet.getUser')
+            ->filter()
+            ->where('source', 'WITHDRAW')
+            ->where('type', 'debit')
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+        $data['searchable'] = Wallet::$searchable;
 
         return view('admin.wallet.withdraw_request',$data);
     }
