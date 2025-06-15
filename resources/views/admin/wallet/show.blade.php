@@ -56,7 +56,7 @@
                                     <div class="theme_label">Ngày tạo : </div>
                                     <div class="product_info">{{ set_date_with_time(@$data->created_at) }}</div>
                                 </div>
-                                @if($data->type == "WITHDRAW")
+                                @if($data->source == 'WITHDRAW')
                                     <div class="th_product_detail">
                                         <div class="theme_label">Trạng thái :</div>
                                         <div class="product_info product_name">{{ @$data->status_str}}

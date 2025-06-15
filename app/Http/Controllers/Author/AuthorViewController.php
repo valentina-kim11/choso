@@ -69,14 +69,6 @@ class AuthorViewController extends Controller
         $data['total_product_sale']= $OrderProduct->count();
         $data['total_product_sale_amount']=  $Order->where('vendor_id',$user->id)->sum('vendor_amount');
 
-        $wallet = Wallet::where('user_id', $user->id)->first();
-        $data['available_balance'] = $wallet->balance ?? 0;
-        $data['withdraw_amount'] = WalletTransaction::where('wallet_id', $wallet->id ?? '')
-            ->where('type', 'debit')
-            ->sum('amount');
-
-
-
         $data['available_balance'] = $this->walletService->getBalance($user->id);
 
         $wallet = Wallet::where('user_id',$user->id)->first();
@@ -88,12 +80,6 @@ class AuthorViewController extends Controller
                 ->where('status', 1)
                 ->sum('amount');
         }
-
-        $data['available_balance'] = $this->walletService->getBalance($user->id);
-
-        $data['withdraw_amount'] = WalletTransaction::whereHas('wallet', function($q) use ($user) {
-            $q->where('user_id', $user->id);
-        })->where('type', 'debit')->sum('amount');
 
 
     
