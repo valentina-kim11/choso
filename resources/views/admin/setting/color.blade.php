@@ -56,6 +56,20 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-lg-6 col-md-12">
+                                        <div class="tp_form_wrapper">
+                                            <label class="mb-2">Chế độ giao diện</label>
+                                            <div class="tp_custom_select">
+                                                <select class="form-select" name="theme_mode">
+                                                    @php $modes = ['light' => 'Light', 'dark' => 'Dark', 'auto' => 'Auto']; @endphp
+                                                    @foreach ($modes as $key => $val)
+                                                        <option value="{{ $key }}" @if(@$data->theme_mode == $key) selected @endif>{{ $val }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="col-lg-12 col-md-12">
                                         <div class="tp_seo_btn">
                                             <button type="submit" class="tp_btn"
