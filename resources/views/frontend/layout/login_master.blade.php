@@ -43,8 +43,7 @@
         </style>
          <!--=== custom css ===-->
 	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-	 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&amp;display=swap"
-        rel="stylesheet">
+         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{$ASSET_URL}}assets/css/auth.css">
 	<link rel="stylesheet" href="{{ $ASSET_URL }}my_assets/buttonLoader.css" />
     <!--=== custom css ===-->

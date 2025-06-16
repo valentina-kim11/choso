@@ -6,7 +6,7 @@ body {
 
 .success {
     color: #88B04B;
-    font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 900;
     font-size: 40px;
     margin-bottom: 10px;
@@ -14,7 +14,7 @@ body {
 
 .error {
     color: #ff4343;
-    font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 900;
     font-size: 40px;
     margin-bottom: 10px;
@@ -22,7 +22,7 @@ body {
 
 p {
     color: #404F5E;
-    font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 20px;
     margin: 0;
 }

@@ -43,7 +43,7 @@
     <!-------- Style-sheet Start -------->
     <link rel="stylesheet" type="text/css" href="{{ $ASSET_URL }}css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="{{ $ASSET_URL }}css/font-awesome.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="{{asset('admin-theme/my_assets/select2.min.css')}}" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="{{ $ASSET_URL }}css/style.css" />
     <link rel="stylesheet" type="text/css" href="{{ $ASSET_URL }}css/dropzone.min.css"/>
