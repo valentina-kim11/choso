@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi"@if($setting->theme_mode == 'dark' || ($setting->theme_mode == 'auto' && request()->cookie('theme') == 'dark')) class="dark"@endif>
 <head>
     @php
         $ASSET_URL = asset('admin-theme/assets') . '/';
@@ -47,6 +47,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="{{asset('admin-theme/my_assets/select2.min.css')}}" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="{{ $ASSET_URL }}css/style.css" />
+    @if($setting->theme_mode == 'dark' || ($setting->theme_mode == 'auto' && request()->cookie('theme') == 'dark'))
+        <link rel="stylesheet" href="{{ asset('css/dark-override.css') }}">
+    @endif
     <link rel="stylesheet" type="text/css" href="{{ $ASSET_URL }}css/dropzone.min.css"/>
     <link rel="stylesheet" type="text/css" href="{{ $ASSET_URL }}css/dropzone-custom.css"/>
     <link rel="stylesheet" href="{{ asset('admin-theme/my_assets/iziToast.min.css') }}">
@@ -103,6 +106,12 @@
     <!-- button loader validation -->
     <script src="{{asset('user-theme/my_assets/jquery.buttonLoader.min.js')}}"></script>
     <script src="{{asset('admin-theme/my_assets/common.js') }}"></script>
+    <script>
+        function setTheme(mode) {
+            document.cookie = 'theme=' + mode + ';path=/';
+            document.documentElement.classList.toggle('dark', mode === 'dark');
+        }
+    </script>
     <script>
         var ASSET_URL = "{{ asset('admin-theme') . '/' }}";
         var BASE_URL = "{{ url('/') }}";

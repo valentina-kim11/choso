@@ -88,7 +88,15 @@ class SettingController extends Controller
 
     public function updateSettings(Request $request)
     {
-        $input = $request->all();
+        $input = $request->except('_token');
+        if (isset($input['theme_mode'])) {
+            $obj = Setting::firstOrNew(['key' => 'theme_mode']);
+            $obj->key = 'theme_mode';
+            $obj->short_value = $input['theme_mode'];
+            $obj->save();
+            $this->dotenvEditor('theme_mode', $input['theme_mode']);
+            unset($input['theme_mode']);
+        }
       
         if(count($input) > 0){
             foreach ($input as $key => $value)
