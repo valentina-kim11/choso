@@ -12,7 +12,7 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
      <style>
         :root {  
             --theme-color: <?php echo @$setting->primary_color ?? '#0ED8D2' ?>;
@@ -30,14 +30,14 @@
             margin: 0;
             padding:0;
             box-sizing:border-box;
-            font-family: Nunito, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         a {
             background-color: transparent;
             -webkit-text-decoration-skip: objects;
         }
         h1, h2, p,a{
-            font-family: Nunito, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         *,
         *::before,

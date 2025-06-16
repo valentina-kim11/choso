@@ -29,7 +29,7 @@
     --dark-color: #002533;
 }
 body {
-	font-family: 'Nunito Sans', sans-serif;
+	font-family: 'Inter', sans-serif;
 	font-weight: 500;
 	font-size: 16px;
 	line-height: 1.6;
@@ -60,7 +60,7 @@ a, a:hover, a:focus{
     transition: all 0.3s;
 }
 h1, h2, h3, h4, h5, h6{
-	font-family: 'Nunito Sans', sans-serif;
+	font-family: 'Inter', sans-serif;
 	-webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
     -ms-transition: all 0.3s;
