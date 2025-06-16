@@ -72,7 +72,44 @@ function formValidate(form_id) {
         },
         submitHandler: function(form) {
             var postData = $('#' + form_id).serializeArray();
-            add_update_details(form_id, postData, 0);
+            if (form_id === 'color-form') {
+                var url = $('#' + form_id).attr('action');
+                var form_btn_id = form_id + '-btn';
+
+                $(document).find('#' + form_btn_id).buttonLoader('start');
+                $(document).find('#' + form_btn_id).prop('disabled', true);
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: postData,
+                    cache: false,
+                    success: function (response) {
+                        $('#' + form_btn_id).prop('disabled', false);
+                        $('#' + form_btn_id).buttonLoader('stop');
+                        var responseJSON = response;
+                        if (responseJSON.status == true) {
+                            success_message(responseJSON.msg, responseJSON.url ?? '', 0);
+                            window.location.reload();
+                        } else {
+                            error_message(responseJSON.msg);
+                        }
+                    },
+                    error: function (response) {
+                        $('#' + form_btn_id).prop('disabled', false);
+                        $('#' + form_btn_id).buttonLoader('stop');
+                        var responseJSON = response.responseJSON;
+                        if (responseJSON.status == true) {
+                            success_message(responseJSON.msg);
+                        } else {
+                            error_message(responseJSON.msg);
+                        }
+                    }
+                });
+            } else {
+                add_update_details(form_id, postData, 0);
+            }
         }
     });
 }
