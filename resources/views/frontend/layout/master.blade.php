@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"@if(($setting->theme_mode ?? 'light') == 'dark' || (($setting->theme_mode ?? 'light') == 'auto' && request()->cookie('theme') == 'dark')) class="dark"@endif>
 <head>
 	<!--=== meta tags ===-->
 	<meta charset="utf-8">
@@ -49,6 +49,9 @@
     <link rel="stylesheet" href="{{ $ASSET_URL }}assets/css/animate.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="{{ $ASSET_URL }}assets/css/style.css" />
+    @if(($setting->theme_mode ?? 'light') == 'dark' || (($setting->theme_mode ?? 'light') == 'auto' && request()->cookie('theme') == 'dark'))
+        <link rel="stylesheet" href="{{ asset('css/dark-override.css') }}">
+    @endif
     <link rel="stylesheet" href="{{ $ASSET_URL }}my_assets/buttonLoader.css" />
     <!--=== custom css ===-->
 	@yield('head_css')
@@ -111,10 +114,16 @@
 			var autoSearch    = "{{ __('master.home.search_template_here') }}";
 		</script>
 		<script src="{{$ASSET_URL}}my_assets/jquery.buttonLoader.js"></script>
-		<script src="{{$ASSET_URL}}my_assets/common.js"></script>
-		@if(!$auth_user)
-		<script src="{{$ASSET_URL}}my_assets/js/auth.js"></script>
-		@endif
+                <script src="{{$ASSET_URL}}my_assets/common.js"></script>
+                <script>
+                    function setTheme(mode) {
+                        document.cookie = 'theme=' + mode + ';path=/';
+                        document.documentElement.classList.toggle('dark', mode === 'dark');
+                    }
+                </script>
+                @if(!$auth_user)
+                <script src="{{$ASSET_URL}}my_assets/js/auth.js"></script>
+                @endif
 		@yield('scripts')
 	</body>
 </html>
