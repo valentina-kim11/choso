@@ -5,7 +5,8 @@ namespace App\Http\Controllers\ADMIN;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\{Wallet,WalletTransaction,Setting,UserAdditionalInfo,WalletTransactionBankAccount,UserBankAccount};
+use App\Models\{Wallet,WalletTransaction,UserAdditionalInfo,WalletTransactionBankAccount,UserBankAccount};
+use App\Models\Admin\Setting;
 use App\Services\{WalletService, AdminActionLogService};
 use Illuminate\Support\Facades\DB;
 

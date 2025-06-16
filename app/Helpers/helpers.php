@@ -121,17 +121,17 @@ function json_response($array, $status)
 
 //Get Setting table
 function getSetting(){
-    return (object) App\Models\Setting::whereNull('long_value')->pluck('short_value','key')->toArray();
+    return (object) App\Models\Admin\Setting::whereNull('long_value')->pluck('short_value','key')->toArray();
 }
 //Get Setting table
 function getSettingShortValue($key){
-     $data = App\Models\Setting::where('key',$key)->first();
+     $data = App\Models\Admin\Setting::where('key',$key)->first();
      return !empty($data) ? $data->short_value : '';
 }
 
 //Get Setting table
 function getSettingLongText(){
-    return (object) App\Models\Setting::whereNull('short_value')->pluck('long_value','key')->toArray();
+    return (object) App\Models\Admin\Setting::whereNull('short_value')->pluck('long_value','key')->toArray();
 }
 
 //Get Language table

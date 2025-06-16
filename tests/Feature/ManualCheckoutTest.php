@@ -2,7 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\{User, Product, Setting};
+use App\Models\{User, Product};
+use App\Models\Admin\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Gloudemans\Shoppingcart\Facades\Cart;
