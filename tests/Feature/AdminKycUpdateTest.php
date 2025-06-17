@@ -19,6 +19,7 @@ class AdminKycUpdateTest extends TestCase
             'full_name' => 'Admin',
             'role' => 0,
             'role_type' => 'ADMIN',
+            'is_admin' => true,
             'is_email_verified' => 1,
         ]);
 
@@ -48,6 +49,7 @@ class AdminKycUpdateTest extends TestCase
         $this->assertDatabaseHas('kyc_submissions', [
             'id' => $submission->id,
             'status' => 'approved',
+            'reviewed_by' => $admin->id,
         ]);
     }
 
@@ -61,6 +63,7 @@ class AdminKycUpdateTest extends TestCase
             'full_name' => 'Admin',
             'role' => 0,
             'role_type' => 'ADMIN',
+            'is_admin' => true,
             'is_email_verified' => 1,
         ]);
 
@@ -83,10 +86,10 @@ class AdminKycUpdateTest extends TestCase
 
         $response = $this->actingAs($admin)
             ->patch(route('admin.kyc.update', $submission->id), [
-                'status' => 'pending',
+                'status' => 'rejected',
             ]);
 
-        $response->assertSessionHasErrors('status');
+        $response->assertSessionHasErrors('note');
         $this->assertDatabaseHas('kyc_submissions', [
             'id' => $submission->id,
             'status' => 'pending',

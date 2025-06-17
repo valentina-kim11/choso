@@ -50,10 +50,17 @@
                     <li><a href="{{ route('admin.vendor.get_request') }}">Yêu cầu duyệt Seller</a></li>
                 </ul>
             </li>
+            @php
+                $pendingKycCount = \App\Models\KycSubmission::where('status','pending')->count();
+            @endphp
             <li @if (Route::is('admin.kyc.*')) class="active" @endif>
                 <a href="{{ route('admin.kyc.index') }}">
                     <span><!-- icon --></span>
-                    <p>Xét duyệt KYC</p>
+                    <p>Xét duyệt KYC
+                        @if($pendingKycCount > 0)
+                            <span class="badge bg-danger ms-1">{{ $pendingKycCount }}</span>
+                        @endif
+                    </p>
                 </a>
             </li>
             <li class="has-sub-menu  @if (Route::is('admin.email_integrations.*')) active @endif">

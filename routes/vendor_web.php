@@ -68,6 +68,7 @@ Route::group(['prefix' => 'author'], function () {
         Route::controller(KycController::class)->prefix('kyc')->group(function(){
             Route::get('create', 'create')->name('vendor.kyc.create');
             Route::post('/', 'store')->name('vendor.kyc.store');
+            Route::get('status', 'status')->name('vendor.kyc.status');
         });
        
         Route::controller(ProductController::class)->prefix('product')->group(function(){

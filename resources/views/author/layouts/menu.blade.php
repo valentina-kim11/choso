@@ -54,12 +54,20 @@
                     <p>Tài khoản ngân hàng</p>
                 </a>
             </li>
-            <li class="@if (Route::is('vendor.kyc.*')) active @endif">
+            <li class="@if (Route::is('vendor.kyc.create')) active @endif">
                 <a href="{{ route('vendor.kyc.create') }}">
                     <span class="">
                         <!-- icon -->
                     </span>
                     <p>Đăng ký KYC</p>
+                </a>
+            </li>
+            <li class="@if (Route::is('vendor.kyc.status')) active @endif">
+                <a href="{{ route('vendor.kyc.status') }}">
+                    <span class="">
+                        <!-- icon -->
+                    </span>
+                    <p>Trạng thái KYC</p>
                 </a>
             </li>
             <li class="@if (Route::is('vendor.profile')) active @endif">

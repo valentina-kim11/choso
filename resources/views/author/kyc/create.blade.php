@@ -8,6 +8,7 @@
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
+        <p><a href="{{ route('vendor.kyc.status') }}">View KYC status</a></p>
         <form action="{{ route('vendor.kyc.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="tp_form_wrapper">

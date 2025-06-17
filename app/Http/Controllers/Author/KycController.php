@@ -42,4 +42,10 @@ class KycController extends Controller
 
         return redirect()->route('vendor.kyc.create')->with('success', 'KYC submitted successfully');
     }
+
+    public function status()
+    {
+        $submission = KycSubmission::where('user_id', auth()->id())->latest()->first();
+        return view('author.kyc.status', compact('submission'));
+    }
 }
