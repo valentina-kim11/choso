@@ -50,6 +50,12 @@
                     <li><a href="{{ route('admin.vendor.get_request') }}">Yêu cầu duyệt Seller</a></li>
                 </ul>
             </li>
+            <li @if (Route::is('admin.kyc.*')) class="active" @endif>
+                <a href="{{ route('admin.kyc.index') }}">
+                    <span><!-- icon --></span>
+                    <p>Xét duyệt KYC</p>
+                </a>
+            </li>
             <li class="has-sub-menu  @if (Route::is('admin.email_integrations.*')) active @endif">
                 <a>
                     <span><!-- icon --></span>
