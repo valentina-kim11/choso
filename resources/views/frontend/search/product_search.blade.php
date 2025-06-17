@@ -42,7 +42,11 @@
                     <div class="tp_isbox_content">
                         <div class="bottom_content">
                             <h5>{{ $items->name }}</h5>
-                            <p>@lang('master.product_search.by') {{ $items->getUser->full_name }}</p>
+                            <p>@lang('master.product_search.by') {{ $items->getUser->full_name }}
+                                @if($items->getUser->kycSubmission && $items->getUser->kycSubmission->status === 'approved')
+                                    <span class="badge bg-success ms-1">Verified Seller</span>
+                                @endif
+                            </p>
                         </div>
                         <div class="tp_wishlist_text">
                             <p>

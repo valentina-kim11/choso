@@ -63,6 +63,10 @@ Route::group(['prefix' => 'author'], function () {
             Route::post('/', 'store')->name('vendor.bank_accounts.store');
             Route::delete('{id}', 'destroy')->name('vendor.bank_accounts.destroy');
         });
+        Route::controller(KycController::class)->prefix('kyc')->group(function(){
+            Route::get('create', 'create')->name('vendor.kyc.create');
+            Route::post('/', 'store')->name('vendor.kyc.store');
+        });
        
         Route::controller(ProductController::class)->prefix('product')->group(function(){
             Route::get('/', 'index')->name('vendor.product.index');
