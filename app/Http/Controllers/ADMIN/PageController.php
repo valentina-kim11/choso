@@ -38,7 +38,7 @@ class PageController extends Controller
         return response()->json(['status' => false, 'msg' => $validator->messages()->first()], 400); 
         $obj = Page::firstOrNew(['id'=>$request->id]);
         if(empty($request->id))
-        $obj->slug = $request->slug;
+        $obj->slug = \Str::slug(convert_vi_to_en($request->slug));
         $obj->heading = $request->heading;
         $obj->sub_heading = $request->sub_heading;
         $obj->description = $request->description;
