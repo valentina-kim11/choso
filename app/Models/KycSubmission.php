@@ -16,10 +16,20 @@ class KycSubmission extends Model
         'front_image_path',
         'back_image_path',
         'status',
+        'reviewed_by',
+        'reviewed_at',
+        'note',
     ];
+
+    protected $dates = ['reviewed_at'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function reviewer()
+    {
+        return $this->belongsTo(User::class, 'reviewed_by');
     }
 }

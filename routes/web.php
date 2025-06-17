@@ -222,10 +222,14 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('{id}/approve', 'approve')->name('admin.topups.approve');
             Route::post('{id}/reject', 'reject')->name('admin.topups.reject');
         });
-        Route::controller(AdminKycController::class)->prefix('kyc')->group(function(){
-            Route::get('/', 'index')->name('admin.kyc.index');
-            Route::patch('{id}', 'update')->name('admin.kyc.update');
-        });
+        Route::controller(AdminKycController::class)
+            ->prefix('kyc')
+            ->middleware('can:review-kyc')
+            ->group(function(){
+                Route::get('/', 'index')->name('admin.kyc.index');
+                Route::get('{id}', 'show')->name('admin.kyc.show');
+                Route::patch('{id}', 'update')->name('admin.kyc.update');
+            });
 
         /* Audit log routes */
         Route::controller(AdminAuditLogController::class)->prefix('audit-logs')->group(function(){
