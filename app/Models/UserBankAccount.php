@@ -30,6 +30,10 @@ class UserBankAccount extends Model
         'is_default',
     ];
 
+    protected $casts = [
+        'is_default' => 'boolean',
+    ];
+
     public function scopeDefault($query)
     {
         return $query->where('is_default', true);

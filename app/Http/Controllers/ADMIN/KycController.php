@@ -4,7 +4,7 @@ namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
 use App\Models\KycSubmission;
-use Illuminate\Http\Request;
+use App\Http\Requests\UpdateKycRequest;
 
 class KycController extends Controller
 {
@@ -14,7 +14,7 @@ class KycController extends Controller
         return view('admin.kyc.index', compact('submissions'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(UpdateKycRequest $request, string $id)
     {
         $submission = KycSubmission::findOrFail($id);
         $submission->status = $request->status;
