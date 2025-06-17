@@ -68,4 +68,11 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 ## Default Settings
 
 Running `php artisan db:seed` will insert the default theme mode setting with a value of `light`.
+
+# Slug Generation
+
+The application automatically converts Vietnamese accented characters to their ASCII equivalents before slugs are created. This occurs in both the PHP and JavaScript code:
+
+- **PHP** uses the `convert_vi_to_en` helper in controllers when storing slugs.
+- **JavaScript** defines a matching `convertViToEn` function in `public/admin-theme/my_assets/common.js`. Elements with the `generate-slug` class call this function so the slug field updates in real time without accents.
 "# laravel-theme-portal-2" 

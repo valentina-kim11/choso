@@ -1,4 +1,8 @@
 "use strict";
+function convertViToEn(str){
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D");
+}
+
 /**
 * Error Message toaster
 */
@@ -305,12 +309,12 @@ function update_single_status2(url, status, confirm_message="") {
     });
 }
 
-$(document).on('keyup paste', '.generate-slug', function() {
-    var str = $(this).val();
+$(document).on("keyup paste", ".generate-slug", function() {
+    var str = convertViToEn($(this).val());
     str = $.trim(str);
-    str = str.replace(/[^a-z-]/gi, '-');
-    str = str.replace(/ /g, '-').replace(/[-]+/g, '-').replace(/[_]+/g, "").replace(/[^\w-]+/g, "");
-    $('.append-slug').val(str.toLowerCase());
+    str = str.replace(/[^a-zA-Z0-9-]/g, "-");
+    str = str.replace(/ /g, "-").replace(/[-]+/g, "-").replace(/[_]+/g, "").replace(/[^\w-]+/g, "");
+    $(".append-slug").val(str.toLowerCase());
 });
 
 // =============================
