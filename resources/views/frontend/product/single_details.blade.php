@@ -145,7 +145,7 @@
                                             <h3>
                                                 <img src="{{ $ASSET_URL }}assets/images/three_star.png"
                                                     alt="Image" />
-                                                {{ @$product->getProductReview->count() }} @lang('master.single_product.Reviews_for_this_product')
+                                                {{ @$product->productReviews->count() }} @lang('master.single_product.Reviews_for_this_product')
                                             </h3>
                                         </div>
                                         <div class="tp_fil_range">

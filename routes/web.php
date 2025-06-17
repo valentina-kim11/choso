@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ADMIN\{AdminViewController, AdminController,PageController,ProductCategoryController,ProductSubCategoryController,UsersController,VendorController,EmailIntegrationsController,ProductController,SettingController,TestimonialController,DiscountCouponController,OrderController,HomeContentController,MailController,LocaleFileController,WalletController as AdminWalletController,TopUpController as AdminTopUpController, AdminAuditLogController};
 
-use App\Http\Controllers\Frontend\{CouponsController,HomeController,ProductController as FrontendProductController, HomeViewController,UserController,CartController,CommentController,SocialLoginController,WalletController,TopUpController};
+use App\Http\Controllers\Frontend\{CouponsController,HomeController,ProductController as FrontendProductController, HomeViewController,UserController,CartController,CommentController,ProductReviewController,SocialLoginController,WalletController,TopUpController};
 use App\Http\Controllers\Payment\{CheckoutController,PaymentsController,PayPalPaymentController,FlutterwaveController,StripePaymentController,RazorpayController,PawaPayController};
 use Laravel\Socialite\Facades\Socialite;
 /*
@@ -338,7 +338,9 @@ Route::group(
             // Product comment
             Route::controller(CommentController::class)->group(function (){
                 Route::post('comment', 'store')->name('frontend.comment.store');
-                Route::post('rating', 'rating_store')->name('admin.rating.store');
+            });
+            Route::controller(ProductReviewController::class)->group(function(){
+                Route::post('rating', 'store')->name('frontend.review.store');
             });
             
              });
@@ -391,7 +393,7 @@ Route::group(
         // Product comment
         
         Route::post('comment/ajax_search', [CommentController::class,'ajax_search_comments'])->name('frontend.comment.search');
-        Route::post('rating/ajax_search', [CommentController::class,'ajax_search_rating'])->name('frontend.rating.search');
+        Route::post('rating/ajax_search', [ProductReviewController::class,'ajax_search'])->name('frontend.rating.search');
         Route::get('get_advertize', [HomeController::class,'get_advertize'])->name('frontend.get_advertize');
         Route::post('post_newsletter', [HomeController::class,'postNewsletter'])->name('frontend.post_newsletter');
 

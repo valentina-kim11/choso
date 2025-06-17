@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Product;
+use App\Models\ProductReview;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
@@ -140,7 +141,12 @@ class User extends Authenticatable
         'id' => 'User Id',
         'full_name' => 'Name',
         'email' => 'Email',
-        'is_active' => 'Is Active',  
+        'is_active' => 'Is Active',
     ];
+
+    public function productReviews()
+    {
+        return $this->hasMany(ProductReview::class, 'user_id');
+    }
 
 }

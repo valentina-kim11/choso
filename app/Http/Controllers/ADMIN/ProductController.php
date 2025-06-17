@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Admin\{ProductMeta,ProductCategory,ProductSubCategory,Comments,Rating};
+use App\Models\ProductReview;
 use Validator,Redirect,Storage,Response;
 use Illuminate\Validation\Rule;
 
@@ -360,7 +361,7 @@ class ProductController extends Controller
     //Review 
     public function review_view(string $id)
     {
-        $data['data'] = Rating::where('product_id',$id)->paginate(20);
+        $data['data'] = ProductReview::where('product_id', $id)->paginate(20);
         if(empty($data)){
           return redirect()->route('admin.product.index');
         }

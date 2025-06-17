@@ -59,6 +59,7 @@
                                     'faRating' => true,
                                     'rating' => @$items->rating,
                                 ])
+                                <span class="ms-2">({{ $items->productReviews->count() }})</span>
                             </div>
                             <span>{{ $items->sale_count }} @lang('master.product_search.sales')</span>
                         </div>
