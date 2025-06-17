@@ -1,4 +1,8 @@
 "use strict";
+function convertViToEn(str){
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D");
+}
+
 /**
 * Error Message toaster
 */
@@ -305,6 +309,14 @@ function update_single_status2(url, status, confirm_message="") {
     });
 }
 
+
+$(document).on("keyup paste", ".generate-slug", function() {
+    var str = convertViToEn($(this).val());
+    str = $.trim(str);
+    str = str.replace(/[^a-zA-Z0-9-]/g, "-");
+    str = str.replace(/ /g, "-").replace(/[-]+/g, "-").replace(/[_]+/g, "").replace(/[^\w-]+/g, "");
+    $(".append-slug").val(str.toLowerCase());
+
 function convertViToEn(str) {
     var unicode = {
         'a': 'á|à|ả|ã|ạ|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ',
@@ -333,6 +345,7 @@ $(document).on('keyup paste', '.generate-slug', function() {
     var str = convertViToEn($(this).val().trim());
     str = str.replace(/\s+/g, '-').replace(/[^a-z0-9-]/gi, '');
     $('.append-slug').val(str.toLowerCase());
+
 });
 
 // =============================
