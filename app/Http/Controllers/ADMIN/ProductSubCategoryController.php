@@ -44,7 +44,7 @@ class ProductSubCategoryController extends Controller
             return response()->json(['status' => false, 'msg' => $validator->messages()->first()], 400);  
         $obj = ProductSubCategory::firstOrNew(['id'=>$request->sub_id]);
         $obj->name = $request->name;
-        $obj->slug = \Str::slug($request->slug);
+        $obj->slug = \Str::slug(convert_vi_to_en($request->slug));
         $obj->category_id = $request->category_id;      
         $obj->is_featured = @$request->is_featured ?? 0;      
         $obj->save();
