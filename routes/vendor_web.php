@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Author\{AuthorViewController, AuthorController,ProductCategoryController,ProductSubCategoryController,ProductController,SettingController,TestimonialController,DiscountCouponController,OrderController,HomeContentController,UsersController,WalletController,BankAccountController};
+use App\Http\Controllers\Author\{AuthorViewController, AuthorController,ProductCategoryController,ProductSubCategoryController,ProductController,SettingController,TestimonialController,DiscountCouponController,OrderController,HomeContentController,UsersController,WalletController,BankAccountController, KycController};
 
 /* Vendor Routes Start */
 Route::group(['prefix' => 'author'], function () {
