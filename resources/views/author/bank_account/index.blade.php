@@ -14,7 +14,12 @@
                     @csrf
                     <div class="tp_form_wrapper">
                         <label class="mb-2">Bank Name</label>
-                        <input type="text" name="bank_name" class="form-control" required>
+                        <select name="bank_name" class="form-control" required>
+                            <option value="">Select bank</option>
+                            @foreach($banks as $bank)
+                                <option value="{{ $bank }}">{{ $bank }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="tp_form_wrapper">
                         <label class="mb-2">Account Number</label>
@@ -45,6 +50,7 @@
                             <th>Holder</th>
                             <th>Default</th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,6 +64,9 @@
                                 @if($account->is_default)
                                     <span class="badge bg-primary">Default</span>
                                 @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('vendor.bank_accounts.edit',$account->id) }}" class="btn btn-sm btn-secondary">Edit</a>
                             </td>
                             <td>
                                 <form method="POST" action="{{ route('vendor.bank_accounts.destroy',$account->id) }}">
