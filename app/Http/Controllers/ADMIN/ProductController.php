@@ -74,7 +74,7 @@ class ProductController extends Controller
         }
         $obj->is_featured = @$request->is_featured ?? 0;
         $obj->fill($request->all());
-        $obj->slug = \Str::slug($request->slug);
+        $obj->slug = \Str::slug(convert_vi_to_en($request->slug));
 
         //created an array of product update version details
         if(isset($request->product_key[0])){

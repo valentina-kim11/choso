@@ -44,7 +44,7 @@ class ProductCategoryController extends Controller
         
         $obj = ProductCategory::firstOrNew(['id'=>$request->category_id]);
         $obj->name = $request->name;
-        $obj->slug = \Str::slug($request->slug);
+        $obj->slug = \Str::slug(convert_vi_to_en($request->slug));
         $obj->is_featured = $request->is_featured ?? 0;
         $obj->ishave_product = $request->ishave_product ?? 0;
         $obj->save();
