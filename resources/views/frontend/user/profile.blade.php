@@ -313,7 +313,11 @@
                                                                     <div class="tp_download_text">
                                                                         <div class="tp_download_text_head">
                                                                             <h5>{{ $items->name }}</h5>
-                                                                            <p>by {{ $items->getUser->full_name }}</p>
+                                                                            <p>by {{ $items->getUser->full_name }}
+                                                                                @if($items->getUser->kycSubmission && $items->getUser->kycSubmission->status === 'approved')
+                                                                                    <span class="badge bg-success ms-1">Verified Seller</span>
+                                                                                @endif
+                                                                            </p>
                                                                         </div>
                                                                         <div class="star_rating">
                                                                             <div class="star_rating">

@@ -115,6 +115,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class,'user_id','id')->orderBy('id','DESC');
     }
+    public function kycSubmission()
+    {
+        return $this->hasOne(\App\Models\KycSubmission::class);
+    }
+
 
 
     public function scopeFilter($query)
