@@ -234,7 +234,11 @@
                                                     @foreach ($user->getOrders as $key => $items)
                                                         <tr>
                                                             <td>{{ ++$key }}</td>
-                                                            <td>{{ $items->tnx_id }}</td>
+                                                        <td>
+                                                            <a href="{{ route('frontend.order.show', [app()->getLocale(), 'tnxId' => $items->tnx_id]) }}">
+                                                                {{ $items->tnx_id }}
+                                                            </a>
+                                                        </td>
                                                             <td>{{ $price_symbol }}{{ @$items->billing_total }}</td>
                                                             <td>{{ set_date_format($items->created_at) }}</td>
                                                             <td>

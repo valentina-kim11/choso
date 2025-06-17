@@ -6,6 +6,7 @@ use App\Http\Controllers\ADMIN\{AdminViewController, AdminController,PageControl
 
 use App\Http\Controllers\Frontend\{CouponsController,HomeController,ProductController as FrontendProductController, HomeViewController,UserController,CartController,CommentController,ProductReviewController,SocialLoginController,WalletController,TopUpController};
 use App\Http\Controllers\Payment\{CheckoutController,PaymentsController,PayPalPaymentController,FlutterwaveController,StripePaymentController,RazorpayController,PawaPayController};
+use App\Http\Controllers\User\OrderController as UserOrderController;
 use Laravel\Socialite\Facades\Socialite;
 /*
 |--------------------------------------------------------------------------
@@ -381,7 +382,7 @@ Route::group(
                 Route::get('transaction-success-api', 'transaction_success_api');
             });
            
-              Route::controller(CheckoutController::class)->group(function (){
+            Route::controller(CheckoutController::class)->group(function (){
                 Route::get('/checkout','index')->name('frontend.checkout');
                 Route::post('/checkout', 'store')->name('frontend.checkout.store');
                 Route::get('/transaction-success','transactionSuccess')->name('frontend.success.transaction');
@@ -389,6 +390,9 @@ Route::group(
                 Route::get('/download-invoice','downlaod_invoice')->name('frontend.download-invoice');
                 Route::get('/transaction-error','transactionError')->name('frontend.cancel.payment');
             });
+
+            Route::get('orders/{tnxId}', [\App\Http\Controllers\User\OrderController::class, 'show'])
+                ->name('frontend.order.show');
      
         // Product comment
         
