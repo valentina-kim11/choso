@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Image,Storage;
 use App\Models\User;
-use App\Models\{Order,OrderProduct};
+use App\Models\{Order,OrderProduct,ProductReview};
 use App\Models\Admin\{ProductCategory,ProductSubCategory,ProductMeta,Rating};
 use App\Models\Frontend\{Comments,Wishlist};
 
@@ -156,6 +156,15 @@ class Product extends Model
     public function getProductReview(){
         return $this->hasMany(Rating::class, 'product_id','id')->whereNull('parent_id');
     }
+
+    /**
+     * Reviews stored in the product_reviews table
+     */
+    public function productReviews()
+    {
+        return $this->hasMany(ProductReview::class, 'product_id');
+    }
+
     public function getProductComment(){
         return $this->hasMany(Comments::class, 'product_id','id')->whereNull('parent_id');
     }
@@ -248,8 +257,10 @@ class Product extends Model
         return $newFileArr;
     }
 
-    public function getUserProductReview(){
-        return $this->hasOne(Rating::class, 'product_id','id')->where('user_id',auth()->id());
+    public function getUserProductReview()
+    {
+        return $this->hasOne(ProductReview::class, 'product_id')
+            ->where('user_id', auth()->id());
     }
 
     public function ratingUpdate($id)

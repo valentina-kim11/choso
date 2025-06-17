@@ -510,7 +510,7 @@
                                 aria-label="Close"></button>
                             <div class="card-body">
                                 <form method="post" class="tp_review_form" id="user_set_review"
-                                    action="{{ route('admin.rating.store', app()->getLocale()) }}">
+                                    action="{{ route('frontend.review.store', app()->getLocale()) }}">
                                     <div class="tp_review_box">
                                         <img id="md-review-img" src="" class="tp-review-img" alt="review-img">
                                         <div class="tp_review_box_data">

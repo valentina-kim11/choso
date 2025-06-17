@@ -3,6 +3,7 @@
 namespace App\Models;
 use App\Models\BaseModel as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ProductReview;
 // use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -25,6 +26,11 @@ class Order extends Model
     public function getOrderProduct()
     {
         return $this->hasMany(OrderProduct::class,'order_id','id');
+    }
+
+    public function productReviews()
+    {
+        return $this->hasMany(ProductReview::class, 'order_id');
     }
 
     public function getStatusStrAttribute()
